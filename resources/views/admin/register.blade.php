@@ -259,10 +259,10 @@
                     'name':$("#editName").val().trim(),
                     "_token": "{{ csrf_token() }}",
                 };
-                //                        $(".data-table").DataTable().draw();
 
                 axios.put("/user"+'/'+editRecordId,data).then(res=>{
-                    alert('با موفقیت ویرایش شد')
+                    alert('با موفقیت ویرایش شد');
+                    $(".data-table").DataTable().draw();
                 }).catch(err=>{
                  alert('ایمیل توسط کاربر دیگیری ثبت شده است ! ')
                 })
