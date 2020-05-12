@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'shabnam';
+  src: url('../font/shabnam.eot?#') format('eot'),  /* IE6–8 */
+       url('../font/shabnam.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+       url('../font/shabnam.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+
+.persian{
+  font-family: shabnam;
+}
