@@ -50,7 +50,7 @@
         </div>
 
 
-        <input type="submit" value="ثبت" class="w3-btn w3-green w3-round w3-left w3-margin">
+        <input id="registerProjectBtn" type="submit" value="ثبت" class="w3-btn w3-green w3-round w3-left w3-margin">
 
 
 
@@ -255,15 +255,11 @@
             })
 
 
-            $("#registerbtn").click(function (e) {
+            $("#registerProjectBtn").click(function (e) {
                 e.preventDefault();
+                alert('s')
                 axios.post('/user', {
-                    'name':$("#name").val(),
-                    'last_name':$("#lastName").val(),
-                    'pid':$("#pid").val().trim(),
-                    'email':$("#email").val(),
-                    'password':$("#password").val(),
-                    'role':'تعمیرکار',
+
                     "_token": "{{ csrf_token() }}",
                 })
                     .then(function (response) {

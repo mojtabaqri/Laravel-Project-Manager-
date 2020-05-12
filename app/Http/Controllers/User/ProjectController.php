@@ -26,12 +26,23 @@ class ProjectController extends Controller
                 $projects=auth()->user()->projects;
             $data = $projects;
             return Datatables::of($data)
+
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
                     $btn='<a href="javascript:void(0)" class="edit btn btn-info btn-sm" id="'.$row->id.'">  مشاهده</a>';
                     $btn.="&nbsp;&nbsp";
                     $btn.='<a href="javascript:void(0)" class="delete btn btn-danger btn-sm" id="'.$row->id.'">حذف</a>';
                     return $btn;
+                })->addColumn('state', function ($row){
+                    switch ($row->state)
+                    {
+                        case "referred":
+                            return $row->state='ارجاع شده';
+                        case "Completed":
+                            return $row->state=' تکمیل شده ';
+                        case "incompleted":
+                            return $row->state='نیمه تمام';
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);
