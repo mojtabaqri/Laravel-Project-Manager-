@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Project;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProjectController extends Controller
 {
@@ -14,10 +16,27 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( Request $request)
     {
-        $projects = Project::all();
-        return view("user.project")->with('projects',$projects);
+        if ($request->ajax()) {
+            $projects=null;
+            if(auth()->user()->hasRole('admin'))
+                $projects=Project::all();
+            else
+                $projects=auth()->user()->projects;
+            $data = $projects;
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn='<a href="javascript:void(0)" class="edit btn btn-info btn-sm" id="'.$row->id.'">  مشاهده</a>';
+                    $btn.="&nbsp;&nbsp";
+                    $btn.='<a href="javascript:void(0)" class="delete btn btn-danger btn-sm" id="'.$row->id.'">حذف</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view("common.projects");
     }
 
     /**

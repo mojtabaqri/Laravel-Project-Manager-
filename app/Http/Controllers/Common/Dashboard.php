@@ -10,9 +10,7 @@ class Dashboard extends Controller
 {
    public function show()
    {
-
-$user=auth()->user();
-
+       $user=auth()->user();
        return view('common.dashboard')->with('user',$user);
    }
 

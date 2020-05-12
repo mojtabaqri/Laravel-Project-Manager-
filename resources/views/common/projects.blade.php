@@ -8,65 +8,53 @@
 
 <div class="w3-margin w3-card w3-padding-32 w3-round w3-border w3-row-padding" dir="rtl">
 
-<form>
+    <form class="text-right">
+        <div class="w3-row-padding" >
 
-<div class="w3-row-padding" >
+            <div class="w3-half w3-right">
 
-<div class="w3-third w3-right">
+                <label for="title">عنوان</label>
 
-<label for="name">نام</label>
+                <input type="text" name="title" class="w3-input w3-border w3-round persian">
 
-<input type="text" name="name" class="w3-input w3-border w3-round persian" id="name">
-
-</div>
+            </div>
 
 
-<div class="w3-third w3-right">
+            <div class="w3-half w3-right">
 
-<label for="lastName">نام خانوادگی</label>
+                <label for="date">مهلت</label>
 
-<input id="lastName" type="text" name="lastName" class="w3-input w3-border w3-round persian">
+                <input type="number" name="date" class="w3-input w3-border w3-round persian">
 
-</div>
-
+            </div>
 
 
 
 
-<div class="w3-third w3-right">
-
-<label for="pid">کد پرسنلی</label>
-
-<input id="pid" type="number"  class="w3-input w3-border w3-round persian">
-
-</div>
-    <div class="w3-third w3-right">
-
-        <label for="email">ایمییل پرسنلی </label>
-
-        <label>
-            <input id="email" type="email" name="email" class="w3-input w3-border w3-round persian">
-        </label>
-
-    </div>
-    <div class="w3-third w3-right">
-
-        <label for="password"> پسورد </label>
-
-        <label>
-            <input id="password" type="password" name="password" class="w3-input w3-border w3-round persian">
-        </label>
-
-    </div>
-
-</div>
-
-
-<input type="submit" value="ثبت" class="w3-btn w3-green w3-round w3-left w3-margin" id="registerbtn">
 
 
 
-</form>
+
+        </div>
+
+
+        <div class="w3-row-padding w3-margin-top">
+            <div class="w3-col l12 w3-right">
+
+                <label for="description">توضیحات</label>
+
+                <textarea name="description" id="description" cols="5" rows="3" class="w3-input w3-border  w3-round persian"></textarea>
+
+            </div>
+
+        </div>
+
+
+        <input type="submit" value="ثبت" class="w3-btn w3-green w3-round w3-left w3-margin">
+
+
+
+    </form>
 
 
     <div class="errors w3-text-red">
@@ -88,22 +76,20 @@
 
         <thead>
 
-        <tr>
+        <tr style="text-align: center">
 
             <th>ردیف</th>
-
-            <th>نام</th>
-            <th>نام خانوادگی </th>
-            <th>ایمیل  </th>
-            <th>کد پرسنلی</th>
-
+            <th>کد پروژه </th>
+            <th>عنوان پروژه </th>
+            <th >زمان تحویل پروژه  </th>
+            <th> وضعیت پروژه</th>
             <th width="100px">عملیات</th>
 
         </tr>
 
         </thead>
 
-        <tbody>
+        <tbody style="text-align: center">
 
         </tbody>
 
@@ -127,7 +113,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title" id="userModalHeader">مدیریت کاربر </h5>
+                <h5 class="modal-title" id="userModalHeader">مدیریت پروژه </h5>
             </div>
 
             <div class="modal-body">
@@ -138,7 +124,7 @@
                         <div class="card" style="margin-bottom:0!important;">
                             <header class="card-header">
 
-                                <h4 class="card-title mt-2" id="userTitle">نام کاربر : مهدی زمانی</h4>
+                                <h4 class="card-title mt-2" id="userTitle">نام پروژه :  برای تست</h4>
                             </header>
                             <div class="card-body">
                                 <form>
@@ -208,13 +194,13 @@
                         "previous":   "قبلی"
                     },
                 },
-                ajax: "{{ route('user.index') }}",
+                ajax: "{{ route('projects.index') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                    {data: 'name', name: 'name'},
-                    {data: 'last_name', name: 'last_name'},
-                    {data: 'email', name: 'email'},
-                    {data: 'pid', name: 'pid'},
+                    {data: 'id', name: 'id'},
+                    {data: 'title', name: 'title'},
+                    {data: 'expire_date', name: 'expire_date'},
+                    {data: 'state', name: 'state'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });

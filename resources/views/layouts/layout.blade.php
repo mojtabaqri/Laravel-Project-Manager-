@@ -95,7 +95,7 @@
          @endrole
 
     @role('admin')
-    <a href="{{route('registerUser')}}" class=" w3-button w3-bar-item w3-block w3-margin-top w3-padding-small w3-right-align w3-round">
+    <a href="{{route('projects.index')}}" class=" w3-button w3-bar-item w3-block w3-margin-top w3-padding-small w3-right-align w3-round">
         <span class="w3-medium  ">    پروژه ها</span><span class="
             w3-padding-small material-icons  w3-text-gray">
             chrome_reader_mode
