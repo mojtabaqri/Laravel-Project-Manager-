@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\Common\Dashboard;
 use App\Http\Controllers\User\UserController;
 use App\User;
 use Spatie\Permission\Models\Permission;
@@ -45,18 +46,14 @@ Route::get('/change-password',function(){
     return view('common.change_password');
 })->name('chpass');
 
-Route::Post('/change-password','User\UserController@changePass');
+Route::Post('/change-password','Common\Dashboard@changePass')->name('changePass');
 
 
 
-
-
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

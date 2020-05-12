@@ -150,14 +150,5 @@ class UserController extends Controller
         User::destroy($id);
         return response()->json(['success'=>'کاربر با موفقیت حذف شد.']);
     }
-    public function changePass(Request $request)
-    {
 
-        $role= ['password' => 'required'];
-        $request->validate($role,self::messages());
-        $user = User::find(auth()->user()->id);
-        $user->password=bcrypt($request->password);
-        if($user->save())
-            return response()->json(['success'=>'پسورد با موفقیت تغیر یافت']);
-    }
 }

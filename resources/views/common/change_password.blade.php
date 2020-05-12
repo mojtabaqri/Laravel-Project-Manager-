@@ -50,9 +50,9 @@
                 axios.post('/change-password',{
                     'password':newpass
                 }).then(res=>{
-
+                    alert('با موفقیت تغیر یافت')
                 }).catch(err=>{
-
+                    alert('ایراد در سیستم ')
                 })
             })
 
