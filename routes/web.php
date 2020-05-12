@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\User\UserController;
 use App\User;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -43,6 +44,12 @@ Route::resource('user','User\UserController');
 Route::get('/change-password',function(){
     return view('common.change_password');
 })->name('chpass');
+
+Route::Post('/change-password','User\UserController@changePass');
+
+
+
+
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
