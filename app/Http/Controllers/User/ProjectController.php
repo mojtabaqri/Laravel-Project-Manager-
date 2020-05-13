@@ -139,8 +139,8 @@ class ProjectController extends Controller
         $project=Project::find($request->id);
         $project->title=$request->title;
         $project->description=$request->description;
-       // $project->expire_date=Carbon::parse($project->expire_date)->addDay($request->expire_date) || 0;
-        $project->state=$request->state || $project->state ;
+        $project->expire_date=Carbon::parse($project->expire_date)->addDay($request->expire_date);
+        $project->state=$request->state;
         $project->save();
     }
 
