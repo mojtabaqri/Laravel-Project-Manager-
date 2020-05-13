@@ -50,7 +50,11 @@ class ProjectController extends Controller
                     if(auth()->user()->hasRole('admin'))
                     $btn.='<a href="javascript:void(0)" class="delete btn btn-danger btn-sm" id="'.$row->id.'">حذف</a>';
                     return $btn;
-                })->addColumn('expire_date', function ($row){
+                })
+                ->addColumn('user_id', function($row){
+                        return $row->users->pid;
+                })
+                ->addColumn('expire_date', function ($row){
                     $diff=Carbon::now()->diffInDays($row->expire_date,false);
                     if($diff<0)
                         return abs($diff)."روز قبل";
@@ -156,7 +160,14 @@ class ProjectController extends Controller
         $project->title=$request->title;
         $project->description=$request->description;
         $project->expire_date=Carbon::parse($project->expire_date)->addDay($request->expire_date);
-        $project->state=$request->state||$project->state;
+        if($request->state==null)
+            $request->state=$project->state;
+        if($request->pid==null){
+            $request->pid=$project->users->pid;
+        }
+        $user_id=User::where('pid',$request->pid)->first()->id;
+        $project->user_id=$user_id;
+        $project->state=$request->state;
         $project->save();
     }
 

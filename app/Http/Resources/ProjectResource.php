@@ -23,6 +23,7 @@ class ProjectResource extends JsonResource
             'day'=>$diff,
             'description'=>$this->description,
             'state'=>$this->state,
+            'byUser'=>$this->users->pid,
         ];
     }
 }

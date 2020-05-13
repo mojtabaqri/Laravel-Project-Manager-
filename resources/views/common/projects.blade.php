@@ -83,6 +83,7 @@
             <th>عنوان پروژه </th>
             <th >زمان تحویل پروژه  </th>
             <th> وضعیت پروژه</th>
+            <th>  توسط </th>
             <th width="100px">عملیات</th>
 
         </tr>
@@ -171,6 +172,12 @@
                                             </select>
                                         </div> <!-- form-group end.// -->
                                     </div>
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="byUser">در حال انجام توسط </label><input id="byUser"  class="w3-input" type="text">
+                                        </div> <!-- form-group end.// -->
+                                    </div>
                                     @endrole
                                     <!-- form-group end.// -->
                                     <div class="form-group">
@@ -242,6 +249,7 @@
                     {data: 'title', name: 'title'},
                     {data: 'expire_date', name: 'expire_date'},
                     {data: 'state', name: 'state'},
+                    {data: 'user_id', name: 'user_id'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
@@ -268,13 +276,15 @@
             $('body').on('click', '.edit', function () {
                 editRecordId = $(this).attr('id');
                 $("#userModal").modal();
-                $("#userModalHeader").text('ویرایش پروژه');
+                $("#userModalHeader").text('ویرایش پروژه ');
                 $.get("/projects" +'/' + editRecordId +'/edit', function (data) {
                     $("#editDescription").val(data.description);
                     $("#editTitle").val(data.title);
+                    $("#userTitle").html(data.title+"ویرایش پروژه : ");
                    @role('admin')
                     $("#editExpireDate").val(data.day);
                     $("#editState").val(data.state);
+                    $("#byUser").val(data.byUser);
                     @endrole
                 })
             });
@@ -291,6 +301,7 @@
                     'description':$("#editDescription").val(),
                     'expire_date':expire,
                     'state':$("#editState").val(),
+                   @role('admin') 'pid':$("#byUser").val().trim(),@endrole
                     "_token": "{{ csrf_token() }}",
                 };
 
