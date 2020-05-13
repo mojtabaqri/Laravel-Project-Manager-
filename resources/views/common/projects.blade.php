@@ -6,7 +6,7 @@
 
 
 
-<div class="w3-margin w3-card w3-padding-32 w3-round w3-border w3-row-padding" dir="rtl">
+@role('normal')<div class="w3-margin w3-card w3-padding-32 w3-round w3-border w3-row-padding" dir="rtl">
 
     <form class="text-right">
         <div class="w3-row-padding" >
@@ -68,7 +68,7 @@
 
 
 
-</div>
+</div>@endrole
 
 
 <div class="w3-margin w3-card w3-padding-32 w3-round w3-border w3-row-padding" dir="rtl">
@@ -302,7 +302,7 @@
             })
 
 
-            $("#registerProjectBtn").click(function (e) {
+           @role('normal') $("#registerProjectBtn").click(function (e) {
                 e.preventDefault();
                 axios.post('/projects', {
                     'title':$("#regProjectTitle").val(),
@@ -324,6 +324,7 @@
 
 
             });
+            @endrole
 
 
         })
