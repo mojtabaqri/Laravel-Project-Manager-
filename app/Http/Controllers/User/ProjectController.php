@@ -14,6 +14,18 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ProjectController extends Controller
 {
+    private static function messages()
+    {
+        return [
+            'title.required' => 'ورود عنوان الزامی است',
+            'title.string' => 'عنوان باید متن باشد',
+            'expireDate.required' => ' مهلت پروژه الزامیست',
+            'expireDate.integer' => ' مهلت پروژه باید عدد صحیح باشد',
+            'description.required' => 'توضیحات کوتاه  الزامیست',
+            'description.string' => 'توضیحات کوتاه  باید متن باشد ',
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -101,8 +113,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-       Project::create($request->all());
-       return redirect('projects');
+        $validatedData = $request->validate($this->rules(),self::messages());
+        $project = Project::updateOrCreate(
+            ['title' => $request->title, 'description' => $request->description],
+            ['user_id' => auth()->user()->id, 'state' => 'incompleted', 'expire_date' =>Carbon::now()->addDay($request->expireDate)]
+        );
+
     }
 
     /**
@@ -154,5 +170,14 @@ class ProjectController extends Controller
     {
         if(auth()->user()->hasRole('admin'))
         Project::destroy($id);
+    }
+
+    private function rules()
+    {
+        return [
+            'title' => 'string|required',
+            'expireDate' => 'integer|required',
+            'description' => 'required|string',
+        ];
     }
 }

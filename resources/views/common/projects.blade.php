@@ -15,7 +15,7 @@
 
                 <label for="title">عنوان</label>
 
-                <input type="text" name="title" class="w3-input w3-border w3-round persian">
+                <input id="regProjectTitle" type="text" name="title" class="w3-input w3-border w3-round persian">
 
             </div>
 
@@ -24,7 +24,7 @@
 
                 <label for="date">مهلت</label>
 
-                <input type="number" name="date" class="w3-input w3-border w3-round persian">
+                <input id="regProjectDate" type="number" name="date" class="w3-input w3-border w3-round persian">
 
             </div>
 
@@ -43,7 +43,7 @@
 
                 <label for="description">توضیحات</label>
 
-                <textarea name="description" id="description" cols="5" rows="3" class="w3-input w3-border  w3-round persian"></textarea>
+                <textarea name="description" id="regProjectDescription" cols="5" rows="3" class="w3-input w3-border  w3-round persian"></textarea>
 
             </div>
 
@@ -304,9 +304,10 @@
 
             $("#registerProjectBtn").click(function (e) {
                 e.preventDefault();
-                alert('s')
-                axios.post('/user', {
-
+                axios.post('/projects', {
+                    'title':$("#regProjectTitle").val(),
+                    'description':$("#regProjectDescription").val(),
+                    'expireDate':$("#regProjectDate").val(),
                     "_token": "{{ csrf_token() }}",
                 })
                     .then(function (response) {
