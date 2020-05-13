@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\User;
+use Carbon\Carbon;
+use Hekmatinasser\Verta\Facades\Verta;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,6 +20,7 @@ class ProjectController extends Controller
      */
     public function index( Request $request)
     {
+
         if ($request->ajax()) {
             $projects=null;
             if(auth()->user()->hasRole('admin'))
@@ -31,9 +34,25 @@ class ProjectController extends Controller
                 ->addColumn('action', function($row){
                     $btn='<a href="javascript:void(0)" class="edit btn btn-info btn-sm" id="'.$row->id.'">  مشاهده</a>';
                     $btn.="&nbsp;&nbsp";
+                    if(auth()->user()->hasRole('admin'))
                     $btn.='<a href="javascript:void(0)" class="delete btn btn-danger btn-sm" id="'.$row->id.'">حذف</a>';
                     return $btn;
-                })->addColumn('state', function ($row){
+                })->addColumn('expire_date', function ($row){
+                    $diff=Carbon::now()->diffInDays($row->expire_date,false);
+                    if($diff<0)
+                        return abs($diff)."روز قبل";
+                    if ($diff==0)
+                    {
+                        $diff=Carbon::now()->diffInHours($row->expire_date,false);
+                        if($diff<0)
+                        return  abs($diff)."ساعت قبل";
+                        else
+                            return  $diff."ساعت مانده";
+                    }
+                    return $diff.'روز مانده';
+                    return Verta::instance($row->expire_date);
+                })
+                ->addColumn('state', function ($row){
                     switch ($row->state)
                     {
                         case "referred":
@@ -114,7 +133,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
+        if(auth()->user()->hasRole('admin'))
         Project::destroy($id);
-        return redirect('projects');
     }
 }

@@ -113,7 +113,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title" id="userModalHeader">مدیریت پروژه </h5>
+                <h5 class="modal-title text-right" id="userModalHeader">مدیریت پروژه </h5>
             </div>
 
             <div class="modal-body">
@@ -124,25 +124,25 @@
                         <div class="card" style="margin-bottom:0!important;">
                             <header class="card-header">
 
-                                <h4 class="card-title mt-2" id="userTitle">نام پروژه :  برای تست</h4>
+                                <h4 class="card-title mt-2 text-right" id="userTitle">عنوان پروژه :   برای تست</h4>
                             </header>
                             <div class="card-body">
                                 <form>
                                     <div class="form-row">
-                                        <div class="col form-group">
-                                            <label>نام خانوادگی</label>
-                                            <input type="text" class="form-control" placeholder="" id="editLname">
+                                        <div class="col form-group text-right">
+                                            <label>عنوان  پروژه </label>
+                                            <input type="text" class="form-control" placeholder="" id="editTitle">
                                         </div> <!-- form-group end.// -->
-                                        <div class="col form-group">
-                                            <label>نام</label>
-                                            <input type="text" class="form-control" placeholder=" " id="editName">
-                                        </div> <!-- form-group end.// -->
+
                                     </div> <!-- form-row end.// -->
-                                    <div class="form-group">
-                                        <label>پست الکترونیک</label>
-                                        <input type="email" class="form-control" placeholder="" id="editEmail">
-                                        <small class="form-text text-muted">قبل از ثبت مطمئن شوید که این ایمیل توسط کاربر دیگری ثبت نشده باشد</small>
-                                    </div> <!-- form-group end.// -->
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label>توضیحات</label>
+                                            <textarea  class="form-control" placeholder=" " id="editDescription">
+                                            </textarea>
+                                        </div> <!-- form-group end.// -->
+                                    </div>
                                     <!-- form-group end.// -->
                                     <div class="form-group">
                                         <button type="submit" id="editBtn" class="btn btn-primary btn-block waves-effect waves-light">ثبت و ویرایش نهایی</button>
@@ -204,7 +204,7 @@
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
-            $('body').on('click', '.delete', function () {
+           @role('admin') $('body').on('click', '.delete', function () {
                 let recordId = $(this).attr("id");
                 let cancle=confirm("آیا شما می خواهید این کاربر را حذف کنید؟");
                 if(!cancle) return false;
@@ -223,7 +223,7 @@
                         console.log('Error:', data);
                     }
                 });
-            });
+            }); @endrole
             $('body').on('click', '.edit', function () {
                 editRecordId = $(this).attr('id');
                 $("#userModal").modal();
