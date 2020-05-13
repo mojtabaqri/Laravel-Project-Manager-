@@ -47,8 +47,21 @@ class ProjectController extends Controller
                         $diff=Carbon::now()->diffInHours($row->expire_date,false);
                         if($diff<0)
                         return  abs($diff)."ساعت قبل";
-                        else
+                        else{
+                            if ($diff==0)
+                            {
+                                $diff=Carbon::now()->diffInMinutes($row->expire_date,false);
+                                if($diff==0)
+                                {
+                                    return 'مهلت به اتمام رسیده ';
+                                }
+                                if($diff<0)
+                                return  abs($diff)." دقیقه گذشته";
+                                else
+                                    return  $diff." دقیقه مانده";
+                            }
                             return  $diff."ساعت مانده";
+                        }
                     }
                     return $diff.'روز مانده';
                     return Verta::instance($row->expire_date);
@@ -123,7 +136,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $project=Project::find($request->id);
+        $project->title=$request->title;
+        $project->description=$request->description;
+       // $project->expire_date=Carbon::parse($project->expire_date)->addDay($request->expire_date) || 0;
+        $project->state=$request->state || $project->state ;
+        $project->save();
     }
 
     /**

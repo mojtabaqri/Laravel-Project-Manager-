@@ -144,15 +144,21 @@
                                         </div> <!-- form-group end.// -->
                                     </div>
 
-
+                                    @role('admin')
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <input id="addDate" class="w3-check" type="checkbox">
+                                            <label>میخاهم مدت زمان تحویل را اضافه کنم
+                                            </label>
+                                        </div> <!-- form-group end.// -->
+                                    </div>
                                     <div class="form-row">
                                         <div class="col form-group text-right">
                                             <label>اضافه کردن  زمان مهلت تحویل </label>
-                                            <input type="number"  min="0" class="form-control " placeholder="تعداد روز اضافی را وارد کنید" id="editExpireDate">
-                                            </input>
+                                            <input type="number"  min="0" class="form-control " placeholder="تعداد روز اضافی را وارد کنید" id="editExpireDate" />
                                         </div> <!-- form-group end.// -->
-                                    </div>
 
+                                    </div>
                                     <div class="form-row">
                                         <div class="col form-group text-right">
                                             <label>  وضعیت پروژه   </label>
@@ -163,6 +169,7 @@
                                             </select>
                                         </div> <!-- form-group end.// -->
                                     </div>
+                                    @endrole
                                     <!-- form-group end.// -->
                                     <div class="form-group">
                                         <button type="submit" id="editBtn" class="btn btn-primary btn-block waves-effect waves-light">ثبت و ویرایش نهایی</button>
@@ -193,19 +200,20 @@
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript">
         $("document").ready(function () {
+            $("#addDate").prop('checked',false);
             let editRecordId;
             let table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
                 "language": {
-                    "infoFiltered":   "(جستجو شده  از _MAX_  کاربر)",
-                    "lengthMenu":     "نمایش _MENU_ کاربر",
+                    "infoFiltered":   "(جستجو شده  از _MAX_  پروژه )",
+                    "lengthMenu":     "نمایش _MENU_ پروژه ",
                     "search": "جستجو",
                     "processing":"درحال پردازش",
-                    "emptyTable":'کاربری یافت نشد',
-                    "infoEmpty":"نمایش 0 کاربر از 0 کاربر ",
+                    "emptyTable":'پروژه ی یافت نشد',
+                    "infoEmpty":"نمایش 0 پروژه  از 0 پروژه  ",
                     "loadingRecords":"درحال بارگزاری ",
-                    "zeroRecords":"کاربری با این نام یافت نشد",
+                    "zeroRecords":"پروژه ی با این نام یافت نشد",
                     "info": "نمایش صفحات _PAGE_ از _PAGES_",
                     "paginate": {
                         "first":      "اولین",
@@ -251,26 +259,33 @@
                 $.get("/projects" +'/' + editRecordId +'/edit', function (data) {
                     $("#editDescription").val(data.description);
                     $("#editTitle").val(data.title);
+                   @role('admin')
                     $("#editExpireDate").val(data.day);
                     $("#editState").val(data.state);
+                    @endrole
                 })
             });
 
             $("#editBtn").click(function (e) {
                 e.preventDefault();
-                let data={
+                let checked = $('#addDate:checked').length;
+                alert(checked)
+                let expire=0;
+                if(checked>0)
+                   expire=$("#editExpireDate").val();
+                    let data={
                     'id':editRecordId,
-                    'email':$("#editEmail").val().trim(),
-                    'last_name':$("#editLname").val().trim(),
-                    'name':$("#editName").val().trim(),
+                    'title':$("#editTitle").val(),
+                    'description':$("#editDescription").val(),
+                    'expire_date':expire,
+                    'state':$("#editState").val(),
                     "_token": "{{ csrf_token() }}",
                 };
 
-                axios.put("/user"+'/'+editRecordId,data).then(res=>{
+                axios.put("/projects"+'/'+editRecordId,data).then(res=>{
                     alert('با موفقیت ویرایش شد');
                     $(".data-table").DataTable().draw();
                 }).catch(err=>{
-                 alert('ایمیل توسط کاربر دیگیری ثبت شده است ! ')
                 })
             })
 
