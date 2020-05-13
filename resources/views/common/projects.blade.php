@@ -147,15 +147,17 @@
                                     @role('admin')
                                     <div class="form-row">
                                         <div class="col form-group text-right">
-                                            <input id="addDate" class="w3-check" type="checkbox">
+                                            <input id="addDate" class="w3-check" type="checkbox" onchange="date(this);">
                                             <label>میخاهم مدت زمان تحویل را اضافه کنم
                                             </label>
                                         </div> <!-- form-group end.// -->
                                     </div>
                                     <div class="form-row">
-                                        <div class="col form-group text-right">
-                                            <label>اضافه کردن  زمان مهلت تحویل </label>
+                                        <div class="col form-group text-right  ">
+                                             <div class="dateShowHide">
+                                            <label>اضافه کردن  زمان مهلت تحویل ( به تعداد روز )  </label>
                                             <input type="number"  min="0" class="form-control " placeholder="تعداد روز اضافی را وارد کنید" id="editExpireDate" />
+                                             </div>
                                         </div> <!-- form-group end.// -->
 
                                     </div>
@@ -199,7 +201,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript">
+        function date(elem)
+        {
+            if (elem.checked)
+                $(".dateShowHide").show(1000);
+            else
+                $(".dateShowHide").hide(1000);
+
+
+
+        }
         $("document").ready(function () {
+            $(".dateShowHide").css('display','none');
             $("#addDate").prop('checked',false);
             let editRecordId;
             let table = $('.data-table').DataTable({
@@ -269,7 +282,6 @@
             $("#editBtn").click(function (e) {
                 e.preventDefault();
                 let checked = $('#addDate:checked').length;
-                alert(checked)
                 let expire=0;
                 if(checked>0)
                    expire=$("#editExpireDate").val();
