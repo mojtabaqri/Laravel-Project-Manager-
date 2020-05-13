@@ -132,5 +132,6 @@
 
 </div>
 @yield('js')
+<script src="{{ asset('js/persian-date.min.js')}}"></script>
 </body>
 </html>

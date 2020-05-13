@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Resources\ProjectResource;
 use App\User;
 use Carbon\Carbon;
 use Hekmatinasser\Verta\Facades\Verta;
@@ -110,7 +111,7 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+       return  response()->json(new ProjectResource(Project::find($id)),200);
     }
 
     /**

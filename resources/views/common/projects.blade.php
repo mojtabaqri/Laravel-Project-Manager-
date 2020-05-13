@@ -143,6 +143,26 @@
                                             </textarea>
                                         </div> <!-- form-group end.// -->
                                     </div>
+
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label>اضافه کردن  زمان مهلت تحویل </label>
+                                            <input type="number"  min="0" class="form-control " placeholder="تعداد روز اضافی را وارد کنید" id="editExpireDate">
+                                            </input>
+                                        </div> <!-- form-group end.// -->
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label>  وضعیت پروژه   </label>
+                                            <select class="w3-select" name="option" id="editState">
+                                                <option value="Completed">تکمیل شده </option>
+                                                <option value="incompleted">نیمه تمام</option>
+                                                <option value="referred">ارجاع شده</option>
+                                            </select>
+                                        </div> <!-- form-group end.// -->
+                                    </div>
                                     <!-- form-group end.// -->
                                     <div class="form-group">
                                         <button type="submit" id="editBtn" class="btn btn-primary btn-block waves-effect waves-light">ثبت و ویرایش نهایی</button>
@@ -206,11 +226,11 @@
             });
            @role('admin') $('body').on('click', '.delete', function () {
                 let recordId = $(this).attr("id");
-                let cancle=confirm("آیا شما می خواهید این کاربر را حذف کنید؟");
+                let cancle=confirm("آیا شما می خواهید این پروژه را حذف کنید؟");
                 if(!cancle) return false;
                 $.ajax({
                     type: "DELETE",
-                    url: "/user"+'/'+recordId,
+                    url: "/projects"+'/'+recordId,
                     data: {
                         "id": recordId ,
                         "_token": "{{ csrf_token() }}",
@@ -227,12 +247,12 @@
             $('body').on('click', '.edit', function () {
                 editRecordId = $(this).attr('id');
                 $("#userModal").modal();
-                $("#userModalHeader").text('ویرایش کاربر');
-                $.get("/user" +'/' + editRecordId +'/edit', function (data) {
-                    $("#editEmail").val(data.user.email);
-                    $("#editLname").val(data.user.last_name);
-                    $("#editName").val(data.user.name);
-                    $("#userTitle").text(data.user.name+" "+data.user.last_name);
+                $("#userModalHeader").text('ویرایش پروژه');
+                $.get("/projects" +'/' + editRecordId +'/edit', function (data) {
+                    $("#editDescription").val(data.description);
+                    $("#editTitle").val(data.title);
+                    $("#editExpireDate").val(data.day);
+                    $("#editState").val(data.state);
                 })
             });
 
