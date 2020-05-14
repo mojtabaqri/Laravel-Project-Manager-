@@ -56,5 +56,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::namespace('Common')->group(function () {
     Route::get('/report','ReportController@index')->name('AdminReport');
     Route::post('/getReport','ReportController@reportFromProject')->name('getReport');
+    Route::get('/reportMaker/{id}/{type}','ReportController@reportMaker')->name('reportMaker');
 
 });
