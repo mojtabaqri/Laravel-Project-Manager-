@@ -27,12 +27,9 @@ Route::resource('projects','User\ProjectController');
 
 Route::get('/registeruser',function(){
     return view('admin.register');
-})->name('registerUser');
+})->name('registerUser')->middleware(['role:admin']);
 
 
-Route::get('/report',function(){
-    return view('admin.report');
-})->name('AdminReport');
 
 
 Route::resource('messages','Common\MessageController');
@@ -56,4 +53,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::namespace('Common')->group(function () {
+    Route::get('/report','ReportController@index')->name('AdminReport');
+    Route::post('/getReport','ReportController@reportFromProject')->name('getReport');
 
+});
