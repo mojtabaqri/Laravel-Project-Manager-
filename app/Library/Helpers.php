@@ -56,6 +56,10 @@ class Helpers
         return Verta::instance($date)->format('Y-m-d');
     }
 
+    public static function getDayNum($row)
+    {
+        return Carbon::now()->diffForHumans($row->expire_date);
+    }
 
 
 
