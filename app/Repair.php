@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Repair extends Model
 {
     protected $fillable = [
-        'shift', 'system_id', 'section_report','reporter','problem','date',
+        'shift', 'system_id', 'section_report','reporter','problem',
         'delivery','solution','user_id','created_at'
     ];
     public function users()

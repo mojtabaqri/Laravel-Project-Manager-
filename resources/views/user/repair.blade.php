@@ -173,6 +173,16 @@
                                             <label for="editReporter">فرد اعلام کننده </label><input readonly class="form-control" placeholder=" " id="editReporter" />
                                         </div> <!-- form-group end.// -->
                                     </div>
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="editProblem">  مشکل بوجود آمده  </label><input readonly class="form-control" placeholder=" " id="editProblem" />
+                                        </div> <!-- form-group end.// -->
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="editDelivery">    فرد تحویل گیرنده  </label><input  class="form-control" placeholder=" " id="editDelivery" />
+                                        </div> <!-- form-group end.// -->
+                                    </div>
 
                                     <div class="form-row">
                                         <div class="col form-group text-right">
@@ -299,39 +309,28 @@
                                 $("#userModal").modal();
                                 $("#userModalHeader").text('مشاهده  ');
                                 $.get("/repairs" +'/' + editRecordId +'/edit', function (data) {
-                                    $("#editSolution").val('ads');
-                                    $("#editSystemId").val('1385454');
-                                    $("#editDate").val('1385454');
-                                    $("#system_id").val('data.system.id');
-                                    $("#editSectionReport").val('data.system.id');
-                                    $("#editReporter").val('data.system.id');
-                                    $("#editRegister").val('data.system.id');
-                                    $("#editShift").val('6-14');
-                                @role('admin')
-                                    $("#editExpireDate").val(data.day);
-                                    $("#editState").val(data.state);
-                                    $("#byUser").val(data.byUser);
-                                @endrole
+                                    $("#editSolution").val(data.data.solution);
+                                    $("#editSystemId").val(data.data.system_id);
+                                    $("#editDate").val(data.data.date);
+                                    $("#editSectionReport").val(data.data.section_report);
+                                    $("#editReporter").val(data.data.reporter);
+                                    $("#editProblem").val(data.data.problem);
+                                    $("#editRegister").val(data.data.user_id);
+                                    $("#editShift").val(data.data.shift);
+                                    $("#editDelivery").val(data.data.delivery);
                                 })
                             });
 
                             $("#editBtn").click(function (e) {
                                 e.preventDefault();
-                                let checked = $('#addDate:checked').length;
-                                let expire=0;
-                                if(checked>0)
-                                    expire=$("#editExpireDate").val();
                                 let data={
                                     'id':editRecordId,
-                                    'title':$("#editTitle").val(),
-                                    'description':$("#editDescription").val(),
-                                    'expire_date':expire,
-                                    'state':$("#editState").val(),
-                                    @role('admin') 'pid':$("#byUser").val().trim(),@endrole
+                                    'editSolution':$("#editSolution").val(),
+                                    'editDelivery':$("#editDelivery").val(),
                                     "_token": "{{ csrf_token() }}",
                                 };
 
-                                axios.put("/projects"+'/'+editRecordId,data).then(res=>{
+                                axios.put("/repairs"+'/'+editRecordId,data).then(res=>{
                                     alert('با موفقیت ویرایش شد');
                                     $(".data-table").DataTable().draw();
                                 }).catch(err=>{

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Resources\RepairsResource;
 use App\Library\Helpers;
 use Carbon\Carbon;
 use Hekmatinasser\Verta\Verta;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Repair;
+use Mpdf\Mpdf;
 use Yajra\DataTables\Facades\DataTables;
 
 class RepairController extends Controller
@@ -52,7 +54,6 @@ class RepairController extends Controller
      */
     public function index(Request $request)
     {
-
         $repairs=null;
         if(auth()->user()->hasRole('admin'))
             $repairs=Repair::all();
@@ -130,11 +131,11 @@ class RepairController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RepairsResource
      */
     public function edit($id)
     {
-        //
+      return new RepairsResource(Repair::find($id));
     }
 
     /**
@@ -146,7 +147,10 @@ class RepairController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $repair=Repair::find($id);
+        $repair->solution=$request->editSolution;
+        $repair->delivery=$request->editDelivery;
+        $repair->save();
     }
 
     /**
