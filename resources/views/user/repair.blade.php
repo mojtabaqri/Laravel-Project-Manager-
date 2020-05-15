@@ -131,23 +131,62 @@
                         <div class="card" style="margin-bottom:0!important;">
                             <header class="card-header">
 
-                                <h4 class="card-title mt-2 text-right" id="userTitle">عنوان پروژه :   برای تست</h4>
+                                <h4 class="card-title mt-2 text-right" id="userTitle">تعمیرات و نگه داری سیستم </h4>
                             </header>
                             <div class="card-body">
                                 <form>
+
                                     <div class="form-row">
                                         <div class="col form-group text-right">
-                                            <label>عنوان  پروژه </label>
-                                            <input type="text" class="form-control" placeholder="" id="editTitle">
+                                            <label for="editDate">  تاریخ   </label><input readonly class="form-control" placeholder=" " id="editDate" />
+                                        </div> <!-- form-group end.// -->
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label>کد  سیستم </label>
+                                            <input readonly type="text" class="form-control" placeholder="" id="editSystemId">
+                                        </div> <!-- form-group end.// -->
+
+                                    </div> <!-- form-row end.// -->
+
+
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="editSolution">  راه حل </label>
+                                            <textarea    class="form-control" placeholder="" id="editSolution"> </textarea>
                                         </div> <!-- form-group end.// -->
 
                                     </div> <!-- form-row end.// -->
 
                                     <div class="form-row">
                                         <div class="col form-group text-right">
-                                            <label>توضیحات</label>
-                                            <textarea  class="form-control" placeholder=" " id="editDescription">
-                                            </textarea>
+                                            <label>واحد اعلام کننده</label>
+                                            <input  readonly class="form-control " placeholder=" " id="editSectionReport">
+                                            </input>
+                                        </div> <!-- form-group end.// -->
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="editReporter">فرد اعلام کننده </label><input readonly class="form-control" placeholder=" " id="editReporter" />
+                                        </div> <!-- form-group end.// -->
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="editRegister">ثبت شده توسط   </label><input readonly class="form-control" placeholder=" " id="editRegister" />
+                                        </div> <!-- form-group end.// -->
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="shift">شیفت کاری</label><select disabled class="w3-select" name="option" id="editShift">
+                                                <option value="6-14">6-14  </option>
+                                                <option value="14-22">14-22</option>
+                                                <option value="22-6">22-6</option>
+                                            </select>
                                         </div> <!-- form-group end.// -->
                                     </div>
                                     <!-- form-group end.// -->
@@ -237,11 +276,11 @@
                             });
                         @role('admin') $('body').on('click', '.delete', function () {
                                 let recordId = $(this).attr("id");
-                                let cancle=confirm("آیا شما می خواهید این پروژه را حذف کنید؟");
+                                let cancle=confirm("آیا شما می خواهید این رکورد را حذف کنید؟");
                                 if(!cancle) return false;
                                 $.ajax({
                                     type: "DELETE",
-                                    url: "/projects"+'/'+recordId,
+                                    url: "/repairs"+'/'+recordId,
                                     data: {
                                         "id": recordId ,
                                         "_token": "{{ csrf_token() }}",
@@ -258,11 +297,16 @@
                             $('body').on('click', '.edit', function () {
                                 editRecordId = $(this).attr('id');
                                 $("#userModal").modal();
-                                $("#userModalHeader").text('ویرایش پروژه ');
-                                $.get("/projects" +'/' + editRecordId +'/edit', function (data) {
-                                    $("#editDescription").val(data.description);
-                                    $("#editTitle").val(data.title);
-                                    $("#userTitle").html(data.title+"ویرایش پروژه : ");
+                                $("#userModalHeader").text('مشاهده  ');
+                                $.get("/repairs" +'/' + editRecordId +'/edit', function (data) {
+                                    $("#editSolution").val('ads');
+                                    $("#editSystemId").val('1385454');
+                                    $("#editDate").val('1385454');
+                                    $("#system_id").val('data.system.id');
+                                    $("#editSectionReport").val('data.system.id');
+                                    $("#editReporter").val('data.system.id');
+                                    $("#editRegister").val('data.system.id');
+                                    $("#editShift").val('6-14');
                                 @role('admin')
                                     $("#editExpireDate").val(data.day);
                                     $("#editState").val(data.state);
