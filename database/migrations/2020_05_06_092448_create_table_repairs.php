@@ -19,7 +19,6 @@ class CreateTableRepairs extends Migration
             $table->string('system_id');
             $table->string('section_report');
             $table->string('reporter');
-            $table->string('responsible');
             $table->string('problem');
             $table->string('delivery');
             $table->timestamps();

@@ -3,55 +3,34 @@
 @section('title','تعمیرات')
 
 @section('content')
-
-
+{{--    اضافه کردن تعمیر --}}
 @role('normal')
 <div class="w3-margin w3-card w3-padding w3-round w3-border w3-row-padding w3-animate-right" dir="rtl">
-
-<form action="/repairs" method="post">
-@csrf
+<form>
 <div class="w3-row-padding" >
-
 <div class="w3-quarter w3-right">
-
-<label for="section">شیفت</label>
-
-<input type="text" name="shift" id="section" class="w3-input w3-border w3-round persian">
-
+            <label>  شیفت کاری    </label>
+            <select class="w3-select" name="option" id="shift">
+                <option value="6-14">6-14  </option>
+                <option value="14-22">14-22</option>
+                <option value="22-6">22-6</option>
+            </select>
 </div>
-
-
 <div class="w3-quarter w3-right">
-
 <label for="system_id">کد سیستم</label>
-
-<input type="text" name="system_id" class="w3-input w3-border w3-round persian">
-
+<input type="text" name="system_id" id="system_id" class="w3-input w3-border w3-round persian">
 </div>
-
-
 <div class="w3-quarter w3-right">
-
 <label for="section_report">واحد اعلام کننده</label>
-
-<input type="text" name="section_report" class="w3-input w3-border w3-round persian">
-
+<input type="text" id="section_report" class="w3-input w3-border w3-round persian">
 </div>
 
 
 
 <div class="w3-quarter w3-right">
-
 <label for="reporter">فرد اعلام کننده</label>
-
-<input type="text" name="reporter" class="w3-input w3-border w3-round persian">
-
+<input type="text" id="reporter" class="w3-input w3-border w3-round persian">
 </div>
-
-
-
-
-
 </div>
 
 
@@ -70,26 +49,16 @@
 
 <label for="problem">مشکل به وجود آمده</label>
 
-<input type="text" name="problem" class="w3-input w3-border w3-round persian">
+<input type="text" id="problem" class="w3-input w3-border w3-round persian">
 
 </div>
-
-
-<div class="w3-quarter w3-right">
-
-<label for="responsible">مسئول تعمیر کننده</label>
-
-<input type="text" name="responsible" class="w3-input w3-border w3-round persian">
-
-</div>
-
 
 
 <div class="w3-quarter w3-right">
 
 <label for="delivery">‫‪نام تحویل دهنده</label>
 
-<input type="text" name="delivery" class="w3-input w3-border w3-round persian">
+<input type="text" id="delivery" class="w3-input w3-border w3-round persian">
 
 </div>
 
@@ -102,28 +71,29 @@
 
 
 
-<input type="submit" value="ثبت" class="w3-btn w3-green w3-round w3-left w3-margin">
+<input id="regRepairBtn" type="submit" value="ثبت" class="w3-btn w3-green w3-round w3-left w3-margin">
 
 
 
 </form>
+    <div class="errors text-right p-4 text-danger"></div>
 </div>
 @endrole
+{{--    اضافه کردن تعمیر --}}
+
+
+
 <div class="w3-margin w3-card w3-padding-32 w3-round w3-border w3-row-padding" dir="rtl">
     <table class="table table-bordered data-table">
-
         <thead>
-
         <tr style="text-align: center">
-
-            <th>ردیف</th>
-            <th>کد پروژه </th>
-            <th>عنوان پروژه </th>
-            <th >زمان تحویل پروژه  </th>
-            <th> وضعیت پروژه</th>
-            <th>  توسط </th>
+            <th>#</th>
+            <th>کد سیستم </th>
+            <th>واحد اعلام کننده  </th>
+            <th > فرد اعلام کننده</th>
+            <th> تاریخ</th>
+            <th>  مشکل به وجود آمده </th>
             <th width="100px">عملیات</th>
-
         </tr>
 
         </thead>
@@ -179,41 +149,6 @@
                                             </textarea>
                                         </div> <!-- form-group end.// -->
                                     </div>
-
-                                    @role('admin')
-                                    <div class="form-row">
-                                        <div class="col form-group text-right">
-                                            <input id="addDate" class="w3-check" type="checkbox" onchange="date(this);">
-                                            <label>میخاهم مدت زمان تحویل را اضافه کنم
-                                            </label>
-                                        </div> <!-- form-group end.// -->
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col form-group text-right  ">
-                                            <div class="dateShowHide">
-                                                <label>اضافه کردن  زمان مهلت تحویل ( به تعداد روز )  </label>
-                                                <input type="number"  min="0" class="form-control " placeholder="تعداد روز اضافی را وارد کنید" id="editExpireDate" />
-                                            </div>
-                                        </div> <!-- form-group end.// -->
-
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col form-group text-right">
-                                            <label>  وضعیت پروژه   </label>
-                                            <select class="w3-select" name="option" id="editState">
-                                                <option value="Completed">تکمیل شده </option>
-                                                <option value="incompleted">نیمه تمام</option>
-                                                <option value="referred">ارجاع شده</option>
-                                            </select>
-                                        </div> <!-- form-group end.// -->
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="col form-group text-right">
-                                            <label for="byUser">در حال انجام توسط </label><input id="byUser"  class="w3-input" type="text">
-                                        </div> <!-- form-group end.// -->
-                                    </div>
-                                    @endrole
                                     <!-- form-group end.// -->
                                     <div class="form-group">
                                         <button type="submit" id="editBtn" class="btn btn-primary btn-block waves-effect waves-light">ثبت و ویرایش نهایی</button>
@@ -236,26 +171,34 @@
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
                     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
                     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-@endsection
+                    <link rel="stylesheet" href="{{ asset('css/persian-datepicker.css') }}">
+
+                @endsection
                 @section('js')
+                    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-                    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
                     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+                    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+                    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+                    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
                     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
                     <script type="text/javascript">
-                        function date(elem)
-                        {
-                            if (elem.checked)
-                                $(".dateShowHide").show(1000);
-                            else
-                                $(".dateShowHide").hide(1000);
-
-
-
-                        }
                         $("document").ready(function () {
+                            document.querySelector("#system_id").addEventListener("keypress", function (evt) {
+                                if (evt.which < 48 || evt.which > 57)
+                                {
+                                    evt.preventDefault();
+                                }
+                            });
+                            let date=  $("#date").pDatepicker();
+                            date.options={
+                                format:"L",
+                                calendar:{
+                                    persian: {
+                                        locale: 'en'
+                                    }
+                                }
+                            };
                             $(".dateShowHide").css('display','none');
                             $("#addDate").prop('checked',false);
                             let editRecordId;
@@ -350,12 +293,16 @@
                             })
 
 
-                        @role('normal') $("#registerProjectBtn").click(function (e) {
+                        @role('normal') $("#regRepairBtn").click(function (e) {
                                 e.preventDefault();
-                                axios.post('/projects', {
-                                    'title':$("#regProjectTitle").val(),
-                                    'description':$("#regProjectDescription").val(),
-                                    'expireDate':$("#regProjectDate").val(),
+                                axios.post("{{route('repairs.store')}}", {
+                                    'shift':$("#shift").val(),
+                                    'system_id':$("#system_id").val(),
+                                    'section_report':$("#section_report").val(),
+                                    'reporter':$("#reporter").val(),
+                                    'date':$("#date").val(),
+                                    'problem':$("#problem").val(),
+                                    'delivery':$("#delivery").val(),
                                     "_token": "{{ csrf_token() }}",
                                 })
                                     .then(function (response) {
