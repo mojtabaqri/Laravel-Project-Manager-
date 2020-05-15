@@ -120,7 +120,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title text-right" id="userModalHeader">مدیریت پروژه </h5>
+                <h5 class="modal-title text-right" id="userModalHeader">مدیریت رکورد </h5>
             </div>
 
             <div class="modal-body">
@@ -256,14 +256,14 @@
                                 processing: true,
                                 serverSide: true,
                                 "language": {
-                                    "infoFiltered":   "(جستجو شده  از _MAX_  پروژه )",
-                                    "lengthMenu":     "نمایش _MENU_ پروژه ",
-                                    "search": "جستجو",
+                                    "infoFiltered":   "(جستجو شده  از _MAX_  رکورد )",
+                                    "lengthMenu":     "نمایش _MENU_ رکورد ",
+                                    "search": "جستجو بر اساس واحد اعلام کننده",
                                     "processing":"درحال پردازش",
-                                    "emptyTable":'پروژه ی یافت نشد',
-                                    "infoEmpty":"نمایش 0 پروژه  از 0 پروژه  ",
+                                    "emptyTable":'رکورد ی یافت نشد',
+                                    "infoEmpty":"نمایش 0 رکورد  از 0 رکورد  ",
                                     "loadingRecords":"درحال بارگزاری ",
-                                    "zeroRecords":"پروژه ی با این نام یافت نشد",
+                                    "zeroRecords":"رکورد ی با این نام یافت نشد",
                                     "info": "نمایش صفحات _PAGE_ از _PAGES_",
                                     "paginate": {
                                         "first":      "اولین",
