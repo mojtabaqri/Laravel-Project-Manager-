@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\RepairsResource;
 use App\Library\Helpers;
 use App\Project;
 use App\Repair;
@@ -27,35 +28,39 @@ class ReportController extends Controller
 
     public function reportFromProject(Request $request)
     {
+        $model = User::where('pid', $request->code)->first();
+        if ($model === null)
+            return response()->json(['state' => 'کاربر یافت   یافت نشد!'], 403);
+        $startDate = new Carbon(Verta::parse($request->fromDate)->datetime()->format('Y-m-d H:i:s'));
+        $endDate = new Carbon(Verta::parse($request->toDate)->datetime()->format('Y-m-d H:i:s'));
         if ($request->state == 1) {
-            $model = User::where('pid', $request->code)->first();
-            if ($model === null)
-                return response()->json(['state' => 'کاربر یافت   یافت نشد!'], 403);
-
-            $startDate = new Carbon(Verta::parse($request->fromDate)->datetime()->format('Y-m-d H:i:s'));
-            $endDate = new Carbon(Verta::parse($request->toDate)->datetime()->format('Y-m-d H:i:s'));
             $result = Project::whereBetween('created_at', [$startDate, $endDate])->get();
             if (count($result) < 1)
                 return response()->json(['state' => ' پروژه ای در این بازه    یافت نشد!'], 403);
-            return $this->makeDataTable($result);
+            return $this->makeDataTable($result,1);
         } else {
-            return 'empty';
+            $result = Repair::whereBetween('created_at', [$startDate, $endDate])->get();
+            if (count($result) < 1)
+                return response()->json(['state' => ' رکوردی در این بازه    یافت نشد!'], 403);
+            return $this->makeDataTable($result,2);
+
         }
     }
 
-    public function makeDataTable($data)
+    public function makeDataTable($data,$type)
     {
-        $html = '';
-        foreach ($data as $item) {
-            if ($item->state == 'Completed')
-                $item->state = 'تکمیل شده';
-            elseif ($item->state == 'referred')
-                $item->state = ' ارجاع شده ';
-            else
-                $item->state = 'نیمه تمام';
+        if($type==1){
+            $html = '';
+            foreach ($data as $item) {
+                if ($item->state == 'Completed')
+                    $item->state = 'تکمیل شده';
+                elseif ($item->state == 'referred')
+                    $item->state = ' ارجاع شده ';
+                else
+                    $item->state = 'نیمه تمام';
 
 
-            $html .= '  <li class="w3-bar" >
+                $html .= '  <li class="w3-bar" >
                <a  target="_blank" href="'."reportMaker/"."$item->id" ."/"."project". '"> <span class="w3-bar-item w3-button popup w3-hover-green w3-xlarge w3-left w3-animate-right " id="' . $item->id . '">
                     تهیه گزارش
                     <span class="material-icons ">
@@ -81,8 +86,54 @@ report
                     <span>' . Verta::instance($item->created_at)->format('Y/m/d H:i') . ' </span>
                 </div>
             </li>';
+            }
+            return $html;
         }
-        return $html;
+        else{
+            $html = '';
+            foreach ($data as $item) {
+                $html .= '  <li class="w3-bar" >
+               <a  target="_blank" href="'."reportMaker/"."$item->id" ."/"."repair". '"> <span class="w3-bar-item w3-button popup w3-hover-green w3-xlarge w3-left w3-animate-right " id="' . $item->id . '">
+                    تهیه گزارش
+                    <span class="material-icons ">
+report
+</span> </span></a>
+            
+                <div class="w3-bar-item w3-right">
+                    <span class="w3-large">کاربر  ثبت کننده    </span><br>
+                    <span>' . $item->users->name . ' </span>
+                </div>
+                <div class="w3-bar-item w3-right">
+                    <span class="w3-large">شیفت    </span><br>
+                    <span>' . $item->shift . ' </span>
+                </div>
+                 <div class="w3-bar-item w3-right">
+                    <span class="w3-large">کد سیستم     </span><br>
+                    <span>' . $item->system_id . ' </span>
+                </div>
+                
+                   <div class="w3-bar-item w3-right">
+                    <span class="w3-large">واحد اعلام کننده </span><br>
+                    <span>' . $item->section_report . ' </span>
+                </div>
+                      
+                          <div class="w3-bar-item w3-right">
+                    <span class="w3-large">  مشکل </span><br>
+                    <span>' . $item->problem . ' </span>
+                </div>
+                            <div class="w3-bar-item w3-right">
+                    <span class="w3-large">  فرد اعلام کننده  </span><br>
+                    <span>' . $item->reporter . ' </span>
+                </div>
+                <div class="w3-bar-item w3-right">
+                    <span class="w3-large">تاریخ دریافت       </span><br>
+                    <span>' . Verta::instance($item->created_at)->format('Y/m/d') . ' </span>
+                </div>
+            </li>';
+            }
+            return $html;
+        }
+
     }
 
     public function reportMaker($id,$type)
@@ -106,7 +157,24 @@ report
             return abort(404);
         }
         else if($type=="repair")
-            return "rapir";
+        {
+            $data=Repair::find($id);
+            if($data!=null) {
+                $info=[
+               'id'=>$data->id ,
+               'shift'=>$data->shift ,
+               'system_id'=>$data->system_id,
+               'section_report'=>$data->section_report,
+               'reporter'=>$data->reporter ,
+               'problem'=>$data->problem ,
+               'date'=>Helpers::shamsi($data->created_at) ,
+               'delivery'=>$data->delivery ,
+               'solution'=>$data->solution ,
+               'user_id'=>$data->users->pid ,
+                ];
+                return view('admin.reportRepiar', compact("info"));
+            }
+        }
         return abort(404);
 
     }
