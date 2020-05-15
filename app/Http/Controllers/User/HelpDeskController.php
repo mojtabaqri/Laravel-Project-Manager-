@@ -18,7 +18,7 @@ class HelpDeskController extends Controller
     public function index()
     {
         // $helps = Help_Desk::all();
-        return view('user.help_desk');//->with('helps',$helps);
+       return redirect('/dashboard');
     }
 
     /**
@@ -39,7 +39,7 @@ class HelpDeskController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
