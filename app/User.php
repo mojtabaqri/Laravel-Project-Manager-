@@ -23,7 +23,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
-
+    public function repairs()
+    {
+        return $this->hasMany(Repair::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

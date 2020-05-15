@@ -33,7 +33,6 @@ Route::get('/registeruser',function(){
 
 
 Route::resource('messages','Common\MessageController');
-Route::resource('repairs','User\RepairController');
 Route::resource('help-desks','User\HelpDeskController');
 Route::resource('user','User\UserController');
 
@@ -58,4 +57,7 @@ Route::namespace('Common')->group(function () {
     Route::post('/getReport','ReportController@reportFromProject')->name('getReport');
     Route::get('/reportMaker/{id}/{type}','ReportController@reportMaker')->name('reportMaker');
 
+});
+Route::namespace('User')->group(function () {
+    Route::resource('repairs','RepairController');
 });

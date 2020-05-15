@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Project;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -86,10 +87,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate($this->rules(),self::messages());
-        $flight = User::updateOrCreate(
+        $user = User::updateOrCreate(
             ['name' => $request->name, 'last_name' => $request->last_name],
             ['pid' => $request->pid, 'email' => $request->email, 'password' =>bcrypt($request->password), 'role' =>$request->role]
         );
+        $user->assignRole("normal");
         return 'ok';
     }
 
@@ -148,6 +150,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
+        $project=Project::where('user_id',$id)->delete();
         return response()->json(['success'=>'کاربر با موفقیت حذف شد.']);
     }
 

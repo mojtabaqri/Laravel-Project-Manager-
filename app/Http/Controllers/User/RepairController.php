@@ -16,7 +16,12 @@ class RepairController extends Controller
      */
     public function index()
     {
-        $repairs = Repair::all();
+        $repairs=null;
+        if(auth()->user()->hasRole('admin'))
+            $repairs=Repair::all();
+        else
+            $repairs=auth()->user()->repairs;
+        $data = $repairs;
         return view('user.repair')->with('repairs',$repairs);
     }
 

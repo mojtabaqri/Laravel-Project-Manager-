@@ -72,11 +72,11 @@
 
           @role('normal')
           <a href="{{route('repairs.index')}}" class="w3-button w3-bar-item w3-block w3-margin-top w3-padding-small w3-right-align w3-round">
-            <span class="w3-medium ">تعمیرات</span><span class="
+            <span class="w3-medium ">تعمیر و نگهداری </span><span class="
             w3-padding-small material-icons w3-text-pink ">
             build
             </span></a>
-    @endrole
+            @endrole
 
 
             <a href="{{route('chpass')}}" class="w3-button w3-bar-item w3-block w3-margin-top w3-padding-small w3-right-align w3-round">

@@ -15,13 +15,12 @@ class CreateTableRepairs extends Migration
     {
         Schema::create('repairs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('shift');
+            $table->enum('shift',['6-14','14-22','22-6']);
             $table->string('system_id');
             $table->string('section_report');
             $table->string('reporter');
             $table->string('responsible');
             $table->string('problem');
-            $table->string('date');
             $table->string('delivery');
             $table->timestamps();
         });
