@@ -91,8 +91,9 @@
             <th>کد سیستم </th>
             <th>واحد اعلام کننده  </th>
             <th > فرد اعلام کننده</th>
+            <th > شیفت</th>
+            <th> ثبت شده توسط</th>
             <th> تاریخ</th>
-            <th>  مشکل به وجود آمده </th>
             <th width="100px">عملیات</th>
         </tr>
 
@@ -222,14 +223,15 @@
                                         "previous":   "قبلی"
                                     },
                                 },
-                                ajax: "{{ route('projects.index') }}",
+                                ajax: "{{ route('repairs.index') }}",
                                 columns: [
                                     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                                    {data: 'id', name: 'id'},
-                                    {data: 'title', name: 'title'},
-                                    {data: 'expire_date', name: 'expire_date'},
-                                    {data: 'state', name: 'state'},
+                                    {data: 'system_id', name: 'system_id'},
+                                    {data: 'section_report', name: 'section_report'},
+                                    {data: 'reporter', name: 'reporter'},
+                                    {data: 'shift', name: 'shift'},
                                     {data: 'user_id', name: 'user_id'},
+                                    {data: 'date', name: 'date'},
                                     {data: 'action', name: 'action', orderable: false, searchable: false},
                                 ]
                             });
@@ -306,6 +308,7 @@
                                     "_token": "{{ csrf_token() }}",
                                 })
                                     .then(function (response) {
+                                        alert('با موفقیت ثبت شد ')
                                         location.reload();
                                     }).catch(err=>{
                                     $.each( err.response.data.errors, function( key, value ) {

@@ -5,6 +5,7 @@ namespace App\Library;
 
 
 use Carbon\Carbon;
+use Hekmatinasser\Verta\Verta;
 
 class Helpers
 {
@@ -49,5 +50,13 @@ class Helpers
         }
         return $diff.'روز مانده';
     }
+
+    public static function shamsi($date)
+    {
+        return Verta::instance($date)->format('Y-m-d');
+    }
+
+
+
 
 }

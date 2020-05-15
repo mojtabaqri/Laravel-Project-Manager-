@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Library\Helpers;
 use Carbon\Carbon;
 use Hekmatinasser\Verta\Verta;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Repair;
+use Yajra\DataTables\Facades\DataTables;
 
 class RepairController extends Controller
 {
@@ -15,7 +17,7 @@ class RepairController extends Controller
     {
         return [
             'shift' => 'required',
-            'system_id' => 'integer|required',
+            'system_id' => 'integer|required|unique:repairs',
             'section_report' => 'required|string',
             'reporter' => 'required|string',
             'date' => 'required|string',
@@ -30,6 +32,7 @@ class RepairController extends Controller
             'shift.required' => 'انتخاب شیفت الزامی است',
             'system_id.required' => 'کد سیستم  الزامی است',
             'system_id.integer' => 'کد سیستم باید عدد صحیح باشد',
+            'system_id.unique' => 'کد سیستم قبلا به سامانه اضافه شده است   ',
             'section_report.required' => '  نام واحد اعلام کننده الزامی است   ',
             'reporter.required' => '  نام  اعلام کننده الزامی است   ',
             'section_report.string' => '  نام  واحد اعلام کننده باید به صورت متن باشد     ',
@@ -47,7 +50,7 @@ class RepairController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $repairs=null;
@@ -56,8 +59,28 @@ class RepairController extends Controller
         else
             $repairs=auth()->user()->repairs;
         $data = $repairs;
-        return view('user.repair')->with('repairs',$repairs);
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm" id="' . $row->id . '">  مشاهده</a>';
+                    $btn .= "&nbsp;&nbsp";
+                    if (auth()->user()->hasRole('admin'))
+                        $btn .= '<a href="javascript:void(0)" class="delete btn btn-danger btn-sm" id="' . $row->id . '">حذف</a>';
+                    return $btn;
+                })
+                ->addColumn('user_id', function ($row) {
+                    return $row->users->pid;
+                })
+                ->addColumn('date', function ($row) {
+                    return Helpers::shamsi($row->created_at);
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+            return view('user.repair');
     }
+
 
     /**
      * Show the form for creating a new resource.
