@@ -92,7 +92,6 @@
                 <th>داخلی  </th>
                 <th> کد پرسنلی   </th>
                 <th > وضعیت پروژه  </th>
-                <th> وضعیت پروژه</th>
                 <th>   نوع مشکل
                 </th>
                 <th>
@@ -244,15 +243,14 @@
                                             "previous":   "قبلی"
                                         },
                                     },
-                                    ajax: "{{ route('projects.index') }}",
+                                    ajax: "{{ route('help-desks.index') }}",
                                     columns: [
                                         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                                        {data: 'id', name: 'id'},
-                                        {data: 'title', name: 'title'},
-                                        {data: 'expire_date', name: 'expire_date'},
+                                        {data: 'phone_number', name: 'phone_number'},
+                                        {data: 'user_id', name: 'user_id'},
                                         {data: 'state', name: 'state'},
-                                        {data: 'user_id', name: 'user_id'},
-                                        {data: 'user_id', name: 'user_id'},
+                                        {data: 'problem', name: 'problem'},
+                                        {data: 'solution', name: 'solution'},
                                         {data: 'action', name: 'action', orderable: false, searchable: false},
                                     ]
                                 });

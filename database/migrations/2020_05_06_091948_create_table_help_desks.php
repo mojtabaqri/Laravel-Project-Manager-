@@ -17,9 +17,11 @@ class CreateTableHelpDesks extends Migration
             $table->bigIncrements('id');
             $table->string('phone_number');
             $table->string('pid');
-            $table->string('status');
-            $table->string('problem');
-            $table->string('solution');
+            $table->text('problem');
+            $table->text('solution');
+            $table->enum('state',['Completed','referred','incompleted','doing'])->default('doing');
+            $table->bigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

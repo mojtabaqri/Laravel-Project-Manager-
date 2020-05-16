@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Help;
+use App\Library\Helpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-
+use Yajra\DataTables\Facades\DataTables;
 
 
 class HelpDeskController extends Controller
@@ -16,10 +16,40 @@ class HelpDeskController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $helps = Help_Desk::all();
+        if ($request->ajax()) {
+            $data=null;
+            if(auth()->user()->hasRole('admin'))
+                $data=Help::all();
+            else
+                $data=auth()->user()->helps;
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn='<a href="javascript:void(0)" class="edit btn btn-info btn-sm" id="'.$row->id.'">  مشاهده</a>';
+                    $btn.="&nbsp;&nbsp";
+                    if(auth()->user()->hasRole('admin'))
+                        $btn.='<a href="javascript:void(0)" class="delete btn btn-danger btn-sm" id="'.$row->id.'">حذف</a>';
+                    return $btn;
+                })
+                ->addColumn('user_id', function($row){
+                    return $row->users->pid;
+                })
+                ->addColumn('state', function ($row){
+                    return Helpers::getState($row->state);
+                })
+                ->addColumn('problem', function ($row){
+                    return Helpers::Summarize($row->problem);
+                })
+                ->addColumn('solution', function ($row){
+                    return Helpers::Summarize($row->solution);
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
        return view('user.help_desk');
     }
 

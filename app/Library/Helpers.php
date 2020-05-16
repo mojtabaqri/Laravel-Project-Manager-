@@ -63,6 +63,10 @@ class Helpers
     {
         return Verta::instance($date)->format('Y-m-d');
     }
+    public static function Summarize($text)
+    {
+        return mb_substr($text,0,30,'UTF-8')."...";
+    }
 
     public static function getDayNum($row)
     {

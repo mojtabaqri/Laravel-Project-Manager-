@@ -27,6 +27,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Repair::class);
     }
+    public function helps()
+    {
+        return $this->hasMany(Help::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

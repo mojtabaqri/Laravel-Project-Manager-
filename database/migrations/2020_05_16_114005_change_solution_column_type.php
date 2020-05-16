@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeStatusToState extends Migration
+class ChangeSolutionColumnType extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class ChangeStatusToState extends Migration
     public function up()
     {
         Schema::table('help_desks', function (Blueprint $table) {
-            $table->dropColumn('status');
-            $table->enum('state',['Completed','referred','incompleted','doing'])->default('doing');
+            $table->text('solution');
+            $table->text('problem');
         });
     }
 
