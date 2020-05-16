@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Help;
+use App\Message;
 use App\Project;
 use App\Repair;
 use App\User;
@@ -158,7 +159,7 @@ class UserController extends Controller
         Project::where('user_id',$id)->delete();
         Help::where('user_id',$id)->delete();
         Repair::where('user_id',$id)->delete();
-
+        Message::where('user_id',$id)->delete();
         return response()->json(['success'=>'کاربر با موفقیت حذف شد.']);
     }
 
