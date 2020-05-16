@@ -10,6 +10,8 @@ class Dashboard extends Controller
 {
    public function show()
    {
+       if(auth()->check()!=true)
+          return redirect('/login');
        $user=auth()->user();
        return view('common.dashboard')->with('user',$user);
    }
