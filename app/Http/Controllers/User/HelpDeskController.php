@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Help;
+use App\Http\Resources\HelpResource;
 use App\Library\Helpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -118,8 +119,7 @@ class HelpDeskController extends Controller
      */
     public function edit($id)
     {
-       // return  response()->json(new ProjectResource(Project::find($id)),200);
-      return 's';
+       return  response()->json(new HelpResource(Help::find($id)),200);
     }
 
     /**
