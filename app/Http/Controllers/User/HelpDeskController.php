@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Help;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -35,11 +37,36 @@ class HelpDeskController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
+
+    private function rules()
+    {
+        return [
+            'phone_number' => 'integer|required',
+            'problem' => 'string|required',
+            'solution' => 'required|string',
+        ];
+    }
+    private static function messages()
+    {
+        return [
+            'problem.required' => 'درج  مشکل  الزامی است',
+            'problem.string' => 'عنوان مشکل متن باشد',
+            'phone_number.required' => ' درج شماره داخلی  الزامیست',
+            'phone_number.integer' => 'شماره داخلی باید عدد صحیح باشد',
+            'solution.required' => 'راه حل مشکل  الزامیست',
+            'solution.string' => 'راه حل مشکل   باید متن باشد ',
+        ];
+    }
     public function store(Request $request)
     {
 
+        $validatedData = $request->validate($this->rules(),self::messages());
+        $project = Help::updateOrCreate(
+            ['problem' => $request->problem, 'phone_number' => $request->phone_number],
+            ['user_id' => auth()->user()->id, 'created_at' =>Carbon::now(),'solution'=>$request->solution,'pid'=>auth()->user()->pid]
+        );
     }
 
     /**
