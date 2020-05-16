@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Help;
 use App\Project;
 use App\User;
 use Illuminate\Http\Request;
@@ -151,6 +152,7 @@ class UserController extends Controller
     {
         User::destroy($id);
         $project=Project::where('user_id',$id)->delete();
+        $helpDesk=Help::where('user_id',$id)->delete();
         return response()->json(['success'=>'کاربر با موفقیت حذف شد.']);
     }
 
