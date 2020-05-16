@@ -11,12 +11,20 @@ class Helpers
 {
     public static function getState($state)
     {
-        if ($state == 'Completed')
-            $state = 'تکمیل شده';
-        elseif ($state == 'referred')
-            $state = ' ارجاع شده ';
-        else
-            $state = 'نیمه تمام';
+        switch ($state){
+            case "Completed":
+                $state="تکمیل شده";
+                break;
+            case "referred":
+                $state="ارجاع شده";
+                break;
+            case "doing":
+                $state=" درحال انجام";
+                break;
+            case "incompleted":
+                $state="نیمه تمام";
+                break;
+        }
 
         return $state;
     }
