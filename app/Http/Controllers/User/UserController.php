@@ -4,10 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Help;
 use App\Project;
+use App\Repair;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Validator;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -151,8 +153,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
-        $project=Project::where('user_id',$id)->delete();
-        $helpDesk=Help::where('user_id',$id)->delete();
+        Project::where('user_id',$id)->delete();
+        Help::where('user_id',$id)->delete();
+        Repair::where('user_id',$id)->delete();
+        $user=User::find($id);
+        $user->roles()->detach();
         return response()->json(['success'=>'کاربر با موفقیت حذف شد.']);
     }
 
