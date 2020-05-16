@@ -152,12 +152,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $user=User::find($id);
+        $user->removeRole($user->roles->first());
         User::destroy($id);
         Project::where('user_id',$id)->delete();
         Help::where('user_id',$id)->delete();
         Repair::where('user_id',$id)->delete();
-        $user=User::find($id);
-        $user->roles()->detach();
+
         return response()->json(['success'=>'کاربر با موفقیت حذف شد.']);
     }
 
