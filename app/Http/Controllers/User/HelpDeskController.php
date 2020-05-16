@@ -118,7 +118,8 @@ class HelpDeskController extends Controller
      */
     public function edit($id)
     {
-        //
+       // return  response()->json(new ProjectResource(Project::find($id)),200);
+      return 's';
     }
 
     /**

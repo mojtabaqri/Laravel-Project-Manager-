@@ -127,7 +127,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h5 class="modal-title text-right" id="userModalHeader">مدیریت پروژه </h5>
+                    <h5 class="modal-title text-right" id="userModalHeader"> مشاهده و ویرایش  </h5>
                 </div>
 
                 <div class="modal-body">
@@ -136,56 +136,35 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12">
                             <div class="card" style="margin-bottom:0!important;">
-                                <header class="card-header">
-
-                                    <h4 class="card-title mt-2 text-right" id="userTitle">عنوان پروژه :   برای تست</h4>
-                                </header>
                                 <div class="card-body">
                                     <form>
+
                                         <div class="form-row">
                                             <div class="col form-group text-right">
-                                                <label>عنوان  پروژه </label>
-                                                <input type="text" class="form-control" placeholder="" id="editTitle">
+                                                <label>داخلی     </label>
+                                                <label for="editPhoneNumber"></label><input type="number" class="form-control" placeholder=" " id="editPhoneNumber">
+                                            </input>
                                             </div> <!-- form-group end.// -->
-
-                                        </div> <!-- form-row end.// -->
+                                        </div>
 
                                         <div class="form-row">
                                             <div class="col form-group text-right">
-                                                <label>توضیحات</label>
-                                                <textarea  class="form-control" placeholder=" " id="editDescription">
+                                                <label>مشکل     </label>
+                                                <label for="editProblem"></label><textarea class="form-control" placeholder=" " id="editProblem">
                                             </textarea>
                                             </div> <!-- form-group end.// -->
                                         </div>
 
+                                        <div class="form-row">
+                                            <div class="col form-group text-right">
+                                                <label>راه حل   </label>
+                                                <textarea  class="form-control" placeholder=" " id="editSolution">
+                                            </textarea>
+                                            </div> <!-- form-group end.// -->
+                                        </div>
+
+
                                         @role('admin')
-                                        <div class="form-row">
-                                            <div class="col form-group text-right">
-                                                <input id="addDate" class="w3-check" type="checkbox" onchange="date(this);">
-                                                <label>میخاهم مدت زمان تحویل را اضافه کنم
-                                                </label>
-                                            </div> <!-- form-group end.// -->
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col form-group text-right  ">
-                                                <div class="dateShowHide">
-                                                    <label>اضافه کردن  زمان مهلت تحویل ( به تعداد روز )  </label>
-                                                    <input type="number"  min="0" class="form-control " placeholder="تعداد روز اضافی را وارد کنید" id="editExpireDate" />
-                                                </div>
-                                            </div> <!-- form-group end.// -->
-
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col form-group text-right">
-                                                <label>  وضعیت پروژه   </label>
-                                                <select class="w3-select" name="option" id="editState">
-                                                    <option value="Completed">تکمیل شده </option>
-                                                    <option value="incompleted">نیمه تمام</option>
-                                                    <option value="referred">ارجاع شده</option>
-                                                </select>
-                                            </div> <!-- form-group end.// -->
-                                        </div>
-
                                         <div class="form-row">
                                             <div class="col form-group text-right">
                                                 <label for="byUser">در حال انجام توسط </label><input id="byUser"  class="w3-input" type="text">
@@ -260,7 +239,7 @@
                                     if(!cancle) return false;
                                     $.ajax({
                                         type: "DELETE",
-                                        url: "/projects"+'/'+recordId,
+                                        url: "/help-desks"+'/'+recordId,
                                         data: {
                                             "id": recordId ,
                                             "_token": "{{ csrf_token() }}",
@@ -277,11 +256,11 @@
                                 $('body').on('click', '.edit', function () {
                                     editRecordId = $(this).attr('id');
                                     $("#userModal").modal();
-                                    $("#userModalHeader").text('ویرایش پروژه ');
-                                    $.get("/projects" +'/' + editRecordId +'/edit', function (data) {
-                                        $("#editDescription").val(data.description);
-                                        $("#editTitle").val(data.title);
-                                        $("#userTitle").html(data.title+"ویرایش پروژه : ");
+                                    $("#userModalHeader").text('ویرایش و مشاهده ');
+                                    $.get("/help-desks" +'/' + editRecordId +'/edit', function (data) {
+                                        $("#editPhoneNumber").val();
+                                        $("#editProblem").val();
+                                        $("#editSolution").html();
                                     @role('admin')
                                         $("#editExpireDate").val(data.day);
                                         $("#editState").val(data.state);
