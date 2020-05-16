@@ -36,13 +36,7 @@
 
 <div class="w3-row-padding w3-margin-top" >
 
-<div class="w3-quarter w3-right">
 
-<label for="date">تاریخ</label>
-
-<input type="text" name="date" id="date" class="w3-input w3-border w3-round persian">
-
-</div>
 
 
 <div class="w3-quarter w3-right">
@@ -221,15 +215,12 @@
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
                     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
                     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-                    <link rel="stylesheet" href="{{ asset('css/persian-datepicker.css') }}">
 
                 @endsection
                 @section('js')
                     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
                     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-                    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
-                    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
                     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
                     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
                     <script type="text/javascript">
@@ -240,17 +231,6 @@
                                     evt.preventDefault();
                                 }
                             });
-                            let date=  $("#date").pDatepicker();
-                            date.options={
-                                format:"L",
-                                calendar:{
-                                    persian: {
-                                        locale: 'en'
-                                    }
-                                }
-                            };
-                            $(".dateShowHide").css('display','none');
-                            $("#addDate").prop('checked',false);
                             let editRecordId;
                             let table = $('.data-table').DataTable({
                                 processing: true,
@@ -345,14 +325,13 @@
                                     'system_id':$("#system_id").val(),
                                     'section_report':$("#section_report").val(),
                                     'reporter':$("#reporter").val(),
-                                    'date':$("#date").val(),
                                     'problem':$("#problem").val(),
                                     'delivery':$("#delivery").val(),
                                     "_token": "{{ csrf_token() }}",
                                 })
                                     .then(function (response) {
                                         alert('با موفقیت ثبت شد ')
-                                        location.reload();
+                                        $(".data-table").DataTable().draw();
                                     }).catch(err=>{
                                     $.each( err.response.data.errors, function( key, value ) {
                                         $(".errors").append('<h6>'+value+'</h6>')

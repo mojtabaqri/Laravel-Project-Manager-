@@ -22,7 +22,6 @@ class RepairController extends Controller
             'system_id' => 'integer|required|unique:repairs',
             'section_report' => 'required|string',
             'reporter' => 'required|string',
-            'date' => 'required|string',
             'problem' => 'required|string',
             'delivery' => 'required|string',
         ];
@@ -39,7 +38,6 @@ class RepairController extends Controller
             'reporter.required' => '  نام  اعلام کننده الزامی است   ',
             'section_report.string' => '  نام  واحد اعلام کننده باید به صورت متن باشد     ',
             'reporter.string' => '  نام   اعلام کننده باید به صورت متن باشد     ',
-            'date.required' => ' تاریخ الزامیست ',
             'problem.required' => ' عنوان مشکل  الزامیست ',
             'problem.string' => ' عنوان مشکل  باید متن باشد ',
             'delivery.string' => ' نام تحویل گیرنده باید متن باشد ',
@@ -111,7 +109,7 @@ class RepairController extends Controller
             'system_id' => $request->system_id,
             'user_id' => auth()->user()->id,
             'section_report' => $request->section_report,
-            'created_at'=> new Carbon(Verta::parse($request->date)->datetime()->format('Y-m-d H:i:s')),
+            'created_at'=>Carbon::now()->format('Y-m-d H:i:s'),
             ]
         );
     }

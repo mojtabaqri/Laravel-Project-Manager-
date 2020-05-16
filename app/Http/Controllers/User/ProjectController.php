@@ -24,6 +24,7 @@ class ProjectController extends Controller
             'expireDate.integer' => ' مهلت پروژه باید عدد صحیح باشد',
             'description.required' => 'توضیحات کوتاه  الزامیست',
             'description.string' => 'توضیحات کوتاه  باید متن باشد ',
+            'pid.exists' => 'این کد پرسنلی یافت نشد',
         ];
     }
 
@@ -124,6 +125,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate($this->rules(),self::messages());
         $project=Project::find($request->id);
         if($project!=null) {
             $project->title = $request->title;
@@ -159,6 +161,7 @@ class ProjectController extends Controller
             'title' => 'string|required',
             'expireDate' => 'integer|required',
             'description' => 'required|string',
+            'pid' => 'exists:users'
         ];
     }
 }
