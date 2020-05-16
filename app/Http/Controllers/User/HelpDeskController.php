@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Help;
 use App\Http\Resources\HelpResource;
 use App\Library\Helpers;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -131,7 +132,20 @@ class HelpDeskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $help=Help::find($request->id);
+        if($help!=null) {
+            $help->phone_number = $request->editPhoneNumber;
+            if(auth()->user()->hasRole('admin'))
+            {
+                $help->pid = $request->pid;
+                $user_id = User::where('pid', $request->pid)->first()->id;
+                $help->user_id = $user_id;
+                $help->state = $request->state;
+            }
+            $help->problem = $request->editProblem;
+            $help->solution = $request->editSolution;
+            $help->save();
+        }
     }
 
     /**
@@ -142,6 +156,6 @@ class HelpDeskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Help::destroy($id);
     }
 }

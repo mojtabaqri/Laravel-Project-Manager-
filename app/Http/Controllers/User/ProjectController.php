@@ -125,18 +125,20 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $project=Project::find($request->id);
-        $project->title=$request->title;
-        $project->description=$request->description;
-        $project->expire_date=Carbon::parse($project->expire_date)->addDay($request->expire_date);
-        if($request->state==null)
-            $request->state=$project->state;
-        if($request->pid==null){
-            $request->pid=$project->users->pid;
+        if($project!=null) {
+            $project->title = $request->title;
+            $project->description = $request->description;
+            $project->expire_date = Carbon::parse($project->expire_date)->addDay($request->expire_date);
+            if ($request->state == null)
+                $request->state = $project->state;
+            if ($request->pid == null) {
+                $request->pid = $project->users->pid;
+            }
+            $user_id = User::where('pid', $request->pid)->first()->id;
+            $project->user_id = $user_id;
+            $project->state = $request->state;
+            $project->save();
         }
-        $user_id=User::where('pid',$request->pid)->first()->id;
-        $project->user_id=$user_id;
-        $project->state=$request->state;
-        $project->save();
     }
 
     /**

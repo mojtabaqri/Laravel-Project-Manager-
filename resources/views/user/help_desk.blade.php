@@ -165,6 +165,19 @@
 
 
                                         @role('admin')
+
+                                        <div class="form-row">
+                                            <div class="col form-group text-right">
+                                                <label>  وضعیت پروژه   </label>
+                                                <select class="w3-select" name="option" id="editState">
+                                                    <option value="doing"> درحال انجام </option>
+                                                    <option value="Completed">تکمیل شده </option>
+                                                    <option value="incompleted">نیمه تمام</option>
+                                                    <option value="referred">ارجاع شده</option>
+                                                </select>
+                                            </div> <!-- form-group end.// -->
+                                        </div>
+
                                         <div class="form-row">
                                             <div class="col form-group text-right">
                                                 <label for="byUser">در حال انجام توسط </label><input id="byUser"  class="w3-input" type="text">
@@ -258,34 +271,31 @@
                                     $("#userModal").modal();
                                     $("#userModalHeader").text('ویرایش و مشاهده ');
                                     $.get("/help-desks" +'/' + editRecordId +'/edit', function (data) {
-                                        $("#editPhoneNumber").val();
-                                        $("#editProblem").val();
-                                        $("#editSolution").html();
+                                        $("#editPhoneNumber").val(data.phone_number);
+                                        $("#editProblem").val(data.problem);
+                                        $("#editSolution").val(data.solution);
                                     @role('admin')
-                                        $("#editExpireDate").val(data.day);
                                         $("#editState").val(data.state);
-                                        $("#byUser").val(data.byUser);
+                                        $("#byUser").val(data.user_id);
                                     @endrole
                                     })
                                 });
 
                                 $("#editBtn").click(function (e) {
                                     e.preventDefault();
-                                    let checked = $('#addDate:checked').length;
-                                    let expire=0;
-                                    if(checked>0)
-                                        expire=$("#editExpireDate").val();
                                     let data={
                                         'id':editRecordId,
-                                        'title':$("#editTitle").val(),
-                                        'description':$("#editDescription").val(),
-                                        'expire_date':expire,
+                                        'editPhoneNumber':$("#editPhoneNumber").val(),
+                                        'editProblem':$("#editProblem").val(),
+                                        'editSolution':$("#editSolution").val(),
+                                        @role('admin')
+                                        'pid':$("#byUser").val().trim(),
                                         'state':$("#editState").val(),
-                                        @role('admin') 'pid':$("#byUser").val().trim(),@endrole
+                                        @endrole
                                         "_token": "{{ csrf_token() }}",
                                     };
 
-                                    axios.put("/projects"+'/'+editRecordId,data).then(res=>{
+                                    axios.put("/help-desks"+'/'+editRecordId,data).then(res=>{
                                         alert('با موفقیت ویرایش شد');
                                         $(".data-table").DataTable().draw();
                                     }).catch(err=>{
