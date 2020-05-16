@@ -46,11 +46,12 @@
 <hr>
 
 <div>
-    <span class="w3-button w3-bar-item w3-block w3-margin-top w3-padding-small w3-right-align w3-round">
-        <span class="w3-medium "> Help Desk</span><span class="
-            w3-padding-small material-icons w3-text-green ">
-           live_help
-            </span></span>
+    <a href="{{route('help-desks.index')}}" class="w3-button w3-bar-item w3-block  w3-padding-small w3-right-align w3-round
+    ">
+        <span class="w3-medium ">Help Desk </span><span class="
+        w3-padding-small material-icons w3-text-green ">
+        live_help
+        </span></a>
 
     <a href="{{route('messages.index')}}" class="w3-button w3-bar-item w3-block  w3-padding-small w3-right-align w3-round
     ">
@@ -59,6 +60,7 @@
         mail
         </span></a>
     @role('normal')
+
         <a href="{{route('projects.index')}}" class="w3-button w3-bar-item w3-block w3-margin-top w3-padding-small w3-right-align w3-round">
             <span class="w3-medium ">ایجاد پروژه</span><span class="
             w3-padding-small material-icons w3-text-blue ">

@@ -18,7 +18,7 @@ class HelpDeskController extends Controller
     public function index()
     {
         // $helps = Help_Desk::all();
-       return redirect('/dashboard');
+       return view('user.help_desk');
     }
 
     /**
