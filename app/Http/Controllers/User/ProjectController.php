@@ -122,23 +122,22 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
+     *///User::where('pid','72804002')->get()->first()->id;
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate($this->rules(),self::messages());
+        $role= [
+        'title' => 'string|required',
+        'description' => 'required|string',
+        'pid' => 'exists:users'
+    ];
+        $validatedData = $request->validate($role,self::messages());
         $project=Project::find($request->id);
         if($project!=null) {
             $project->title = $request->title;
             $project->description = $request->description;
             $project->expire_date = Carbon::parse($project->expire_date)->addDay($request->expire_date);
-            if ($request->state == null)
-                $request->state = $project->state;
-            if ($request->pid == null) {
-                $request->pid = $project->users->pid;
-            }
-            $user_id = User::where('pid', $request->pid)->first()->id;
-            $project->user_id = $user_id;
             $project->state = $request->state;
+            $project->user_id=User::where('pid',$request->pid)->first()->id;
             $project->save();
         }
     }
