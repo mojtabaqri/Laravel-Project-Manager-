@@ -310,6 +310,9 @@
                     alert('با موفقیت ویرایش شد');
                     $(".data-table").DataTable().draw();
                 }).catch(err=>{
+                    $.each( err.response.data.errors, function( key, value ) {
+                      alert(value)
+                    });
                 })
             })
 
