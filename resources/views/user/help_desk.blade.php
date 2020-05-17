@@ -83,11 +83,8 @@
 
     <div class="w3-margin w3-card w3-padding-32 w3-round w3-border w3-row-padding" dir="rtl">
         <table class="table table-bordered data-table">
-
             <thead>
-
             <tr style="text-align: center">
-
                 <th>ردیف</th>
                 <th>داخلی  </th>
                 <th> کد پرسنلی   </th>
@@ -107,6 +104,15 @@
             <tbody style="text-align: center">
 
             </tbody>
+            <div class="row">
+                <div class="col-9" >
+                    <label class="text-right " style="margin-left: 4.2em;">کد پرسنلی
+                        <input class="form-control form-control-sm" readonly type="text" value="{{auth()->user()->pid}}"/>
+                    </label>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
 
         </table>
 
