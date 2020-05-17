@@ -19,45 +19,33 @@ use Spatie\Permission\Models\Role;
 Route::get('/', function () {
      return redirect('login');
 });
+Route::middleware(['auth:web'])->group(function () {
+    Route::get('/dashboard','Common\Dashboard@show')->name('dashboard');
+    Route::resource('projects','User\ProjectController');
+    Route::get('/registeruser',function(){
+        return view('admin.register');
+    })->name('registerUser')->middleware(['role:admin']);
 
 
-Route::get('/dashboard','Common\Dashboard@show')->name('dashboard');
+    Route::resource('messages','Common\MessageController');
+    Route::resource('help-desks','User\HelpDeskController');
+    Route::resource('user','User\UserController');
 
-Route::resource('projects','User\ProjectController');
+    Route::get('/change-password',function(){
+        return view('common.change_password');
+    })->name('chpass');
 
-Route::get('/registeruser',function(){
-    return view('admin.register');
-})->name('registerUser')->middleware(['role:admin']);
+    Route::Post('/change-password','Common\Dashboard@changePass')->name('changePass');
 
-
-
-
-Route::resource('messages','Common\MessageController');
-Route::resource('help-desks','User\HelpDeskController');
-Route::resource('user','User\UserController');
-
-
-
-Route::get('/change-password',function(){
-    return view('common.change_password');
-})->name('chpass');
-
-Route::Post('/change-password','Common\Dashboard@changePass')->name('changePass');
-
-
-
-Route::get('/logout', 'Auth\LoginController@logout');
-
+    Route::get('/logout', 'Auth\LoginController@logout');
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::namespace('Common')->group(function () {
+        Route::get('/report','ReportController@index')->name('AdminReport');
+        Route::post('/getReport','ReportController@reportFromProject')->name('getReport');
+        Route::get('/reportMaker/{id}/{type}','ReportController@reportMaker')->name('reportMaker');
+    });
+    Route::namespace('User')->group(function () {
+        Route::resource('repairs','RepairController');
+    });
+});
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::namespace('Common')->group(function () {
-    Route::get('/report','ReportController@index')->name('AdminReport');
-    Route::post('/getReport','ReportController@reportFromProject')->name('getReport');
-    Route::get('/reportMaker/{id}/{type}','ReportController@reportMaker')->name('reportMaker');
-
-});
-Route::namespace('User')->group(function () {
-    Route::resource('repairs','RepairController');
-});
