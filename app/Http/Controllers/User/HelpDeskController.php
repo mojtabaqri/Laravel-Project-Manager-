@@ -137,6 +137,9 @@ class HelpDeskController extends Controller
             $help->phone_number = $request->editPhoneNumber;
             if(auth()->user()->hasRole('admin'))
             {
+                $role=['pid' => 'exists:users'];
+                $message=[ 'pid.exists' => 'این کد پرسنلی یافت نشد'];
+                $validatedData = $request->validate($role,$message);
                 $help->pid = $request->pid;
                 $user_id = User::where('pid', $request->pid)->first()->id;
                 $help->user_id = $user_id;
