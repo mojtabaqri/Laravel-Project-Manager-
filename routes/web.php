@@ -19,7 +19,7 @@ use Spatie\Permission\Models\Role;
 Route::get('/', function () {
      return redirect('login');
 });
-Route::middleware(['auth:web'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard','Common\Dashboard@show')->name('dashboard');
     Route::resource('projects','User\ProjectController');
     Route::get('/registeruser',function(){
