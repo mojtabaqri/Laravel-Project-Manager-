@@ -54,7 +54,7 @@ class RepairController extends Controller
     {
         $repairs=null;
         if(auth()->user()->hasRole('admin'))
-            $repairs=Repair::all();
+            return redirect('/dashboard');
         else
             $repairs=auth()->user()->repairs;
         $data = $repairs;
