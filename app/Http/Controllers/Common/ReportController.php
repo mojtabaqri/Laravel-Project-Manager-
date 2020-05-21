@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Help;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\RepairsResource;
 use App\Library\Helpers;
@@ -29,21 +30,27 @@ class ReportController extends Controller
     public function reportFromProject(Request $request)
     {
         $model = User::where('pid', $request->code)->first();
-        if ($model === null)
+        if ($model === null) //if project request
             return response()->json(['state' => 'کاربر یافت   یافت نشد!'], 403);
         $startDate = new Carbon(Verta::parse($request->fromDate)->datetime()->format('Y-m-d H:i:s'));
         $endDate = new Carbon(Verta::parse($request->toDate)->datetime()->format('Y-m-d H:i:s'));
         if ($request->state == 1) {
-            $result = Project::whereBetween('created_at', [$startDate, $endDate])->get();
+            $result = Project::whereBetween('created_at', [$startDate, $endDate])->where('user_id',$model->id)->get();
             if (count($result) < 1)
                 return response()->json(['state' => ' پروژه ای در این بازه    یافت نشد!'], 403);
             return $this->makeDataTable($result,1);
-        } else {
-            $result = Repair::whereBetween('created_at', [$startDate, $endDate])->get();
+        } else if($request->state == 2){ //if repair request
+            $result = Repair::whereBetween('created_at', [$startDate, $endDate])->where('user_id',$model->id)->get();
             if (count($result) < 1)
                 return response()->json(['state' => ' رکوردی در این بازه    یافت نشد!'], 403);
             return $this->makeDataTable($result,2);
 
+        }
+        else{  //if helps desk report requeset
+            $result = Help::whereBetween('created_at', [$startDate, $endDate])->where('user_id',$model->id)->get();
+            if (count($result) < 1)
+                return response()->json(['state' => ' رکوردی در این بازه    یافت نشد!'], 403);
+            return $this->makeDataTable($result,3);
         }
     }
 
@@ -89,7 +96,7 @@ report
             }
             return $html;
         }
-        else{
+        else if ($type==2){
             $html = '';
             foreach ($data as $item) {
                 $html .= '  <li class="w3-bar" >
@@ -125,6 +132,39 @@ report
                     <span class="w3-large">  فرد اعلام کننده  </span><br>
                     <span>' . $item->reporter . ' </span>
                 </div>
+                <div class="w3-bar-item w3-right">
+                    <span class="w3-large">تاریخ دریافت       </span><br>
+                    <span>' . Verta::instance($item->created_at)->format('Y/m/d') . ' </span>
+                </div>
+            </li>';
+            }
+            return $html;
+        }
+        else{
+            $html = '';
+            foreach ($data as $item) {
+                $html .= '  <li class="w3-bar" >
+               <a  target="_blank" href="'."reportMaker/"."$item->id" ."/"."helps". '"> <span class="w3-bar-item w3-button popup w3-hover-green w3-xlarge w3-left w3-animate-right " id="' . $item->id . '">
+                    تهیه گزارش
+                    <span class="material-icons ">
+report
+</span> </span></a>
+            
+                <div class="w3-bar-item w3-right">
+                    <span class="w3-large">کاربر  ثبت کننده    </span><br>
+                    <span>' . $item->users->name . ' </span>
+                </div>
+                <div class="w3-bar-item w3-right">
+                    <span class="w3-large">  داخلی     </span><br>
+                    <span>' . $item->phone_number . ' </span>
+                </div>
+                 <div class="w3-bar-item w3-right">
+                    <span class="w3-large"> مشکل     </span><br>
+                    <span>' . $item->problem . ' </span>
+                </div>
+                
+             
+                   
                 <div class="w3-bar-item w3-right">
                     <span class="w3-large">تاریخ دریافت       </span><br>
                     <span>' . Verta::instance($item->created_at)->format('Y/m/d') . ' </span>
@@ -174,6 +214,24 @@ report
                 ];
                 return view('admin.reportRepiar', compact("info"));
             }
+        }
+        else if ($type=="helps"){
+            $data=Help::find($id);
+            if($data!=null) {
+                $info=[
+                    'id'=>$data->id ,
+                    'phone_number'=>$data->phone_number ,
+                    'pid'=>$data->pid,
+                    'state'=>Helpers::getState($data->state),
+                    'problem'=>$data->problem ,
+                    'solution'=>$data->solution ,
+                    'created_at'=>Helpers::shamsi($data->created_at) ,
+                    'user_id'=>$data->users->name ,
+                ];
+                return view('admin.reportHelp', compact("info"));
+
+            }
+
         }
         return abort(404);
 

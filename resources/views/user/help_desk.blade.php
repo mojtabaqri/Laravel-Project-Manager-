@@ -321,7 +321,7 @@
                                         "_token": "{{ csrf_token() }}",
                                     })
                                         .then(function (response) {
-                                            location.reload();
+                                            $(".data-table").DataTable().draw();
                                         }).catch(err=>{
                                         $.each( err.response.data.errors, function( key, value ) {
                                             $(".errors").append('<h6>'+value+'</h6>')
