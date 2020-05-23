@@ -40,6 +40,9 @@ class HelpDeskController extends Controller
                 ->addColumn('user_id', function($row){
                     return $row->users->pid;
                 })
+                ->addColumn('user_name', function($row){
+                    return $row->users->name;
+                })
                 ->addColumn('state', function ($row){
                     return Helpers::getState($row->state);
                 })
