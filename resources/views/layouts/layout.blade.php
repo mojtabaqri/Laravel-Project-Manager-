@@ -13,15 +13,30 @@
 <body>
 <!-- hearder -->
 
-<div class="w3-bar w3-red w3-padding  w3-card-4">
+<div class="w3-bar w3-red w3-padding  w3-card-4 d-inline-flex justify-content-between" style="text-align: right!important;" >
 
 
-     <a href="{{url('logout')}}" class="w3-bar-item w3-button w3-left">
+    <div class="col-1"> <a href="{{url('logout')}}" class="w3-bar-item w3-button w3-left">
          <i class="material-icons">
              person
              </i>
 
-     </a>
+        </a> </div>
+
+    <div class="person-holder col-11  d-inline-flex justify-content-end text-right" >
+        @unless(empty(auth()->user()))
+
+            <label class="m-2" >
+                {{auth()->user()->pid}}
+            </label >
+
+        <label class="m-2" >
+            {{auth()->user()->name." ".auth()->user()->last_name}}
+        </label >
+
+
+        @endunless
+    </div>
    </div>
 
 
