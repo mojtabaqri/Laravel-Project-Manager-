@@ -11,36 +11,28 @@
 <form>
 
 <div class="w3-row-padding" >
-
-<div class="w3-third w3-right">
+<div class="w3-quarter w3-right">
 
 <label for="name">نام</label>
 
 <input type="text" name="name" class="w3-input w3-border w3-round persian" id="name">
 
 </div>
-
-
-<div class="w3-third w3-right">
+<div class="w3-quarter w3-right">
 
 <label for="lastName">نام خانوادگی</label>
 
 <input id="lastName" type="text" name="lastName" class="w3-input w3-border w3-round persian">
 
 </div>
-
-
-
-
-
-<div class="w3-third w3-right">
+<div class="w3-quarter w3-right">
 
 <label for="pid">کد پرسنلی</label>
 
 <input id="pid" type="number"  class="w3-input w3-border w3-round persian">
 
 </div>
-    <div class="w3-third w3-right">
+<div class="w3-quarter w3-right">
 
         <label for="email">ایمییل پرسنلی </label>
 
@@ -49,13 +41,24 @@
         </label>
 
     </div>
-    <div class="w3-third w3-right">
+ <div class="w3-quarter w3-right">
 
         <label for="password"> پسورد </label>
 
         <label>
             <input id="password" type="password" name="password" class="w3-input w3-border w3-round persian">
         </label>
+
+    </div>
+ <div class="w3-quarter w3-right text-right">
+
+
+     <label for="roleInput " >          تعیین نقش
+     </label>
+         <select class="w3-select" name="option" id="roleInput">
+             <option value="normal" selected>کاربر   </option>
+             <option value="admin">مدیر </option>
+         </select>
 
     </div>
 
@@ -277,7 +280,7 @@
                     'pid':$("#pid").val().trim(),
                     'email':$("#email").val(),
                     'password':$("#password").val(),
-                    'role':'تعمیرکار',
+                    'role':$("#roleInput").val(),
                     "_token": "{{ csrf_token() }}",
                 })
                     .then(function (response) {

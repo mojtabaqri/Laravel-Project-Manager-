@@ -95,7 +95,7 @@ class UserController extends Controller
             ['name' => $request->name, 'last_name' => $request->last_name],
             ['pid' => $request->pid, 'email' => $request->email, 'password' =>bcrypt($request->password), 'role' =>$request->role]
         );
-        $user->assignRole("normal");
+        $user->assignRole($request->role);
         return 'ok';
     }
 
