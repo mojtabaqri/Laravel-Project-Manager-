@@ -210,6 +210,7 @@ report
                'date'=>Helpers::shamsi($data->created_at) ,
                'delivery'=>$data->delivery ,
                'solution'=>$data->solution ,
+               'girande'=>$data->girande ,
                'user_id'=>$data->users->pid ,
                 ];
                 return view('admin.reportRepiar', compact("info"));

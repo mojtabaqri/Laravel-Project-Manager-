@@ -108,6 +108,7 @@ class RepairController extends Controller
             'reporter' => $request->reporter,
             'system_id' => $request->system_id,
             'user_id' => auth()->user()->id,
+            'girande' =>$request->girande,
             'section_report' => $request->section_report,
             'created_at'=>Carbon::now()->format('Y-m-d H:i:s'),
             ]

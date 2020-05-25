@@ -25,6 +25,7 @@ class RepairsResource extends JsonResource
             'date'=>Helpers::shamsi($this->created_at) ,
             'delivery'=>$this->delivery ,
             'solution'=>$this->solution ,
+            'girande'=>$this->girande ,
             'user_id'=>$this->users->pid ,
         ];
     }

@@ -56,7 +56,13 @@
 
 </div>
 
+    <div class="w3-quarter w3-right">
 
+        <label for="girande">‫‪نام تحویل گیرنده</label>
+
+        <input type="text" id="girande" class="w3-input w3-border w3-round persian">
+
+    </div>
 
 
 
@@ -85,6 +91,7 @@
             <th>کد سیستم </th>
             <th>واحد اعلام کننده  </th>
             <th > فرد اعلام کننده</th>
+            <th >  تحویل گیرنده  </th>
             <th > شیفت</th>
             <th> ثبت شده توسط</th>
             <th> تاریخ</th>
@@ -174,10 +181,14 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="col form-group text-right">
-                                            <label for="editDelivery">    فرد تحویل گیرنده  </label><input  class="form-control" placeholder=" " id="editDelivery" />
+                                            <label for="editDelivery">    فرد تحویل دهنده  </label><input  class="form-control" placeholder=" " id="editDelivery" />
                                         </div> <!-- form-group end.// -->
                                     </div>
-
+                                    <div class="form-row">
+                                        <div class="col form-group text-right">
+                                            <label for="editGirande">   فرد  تحویل گیرنده  </label><input  readonly class="form-control" placeholder=" " id="editGirande" />
+                                        </div> <!-- form-group end.// -->
+                                    </div>
                                     <div class="form-row">
                                         <div class="col form-group text-right">
                                             <label for="editRegister">ثبت شده توسط   </label><input readonly class="form-control" placeholder=" " id="editRegister" />
@@ -258,6 +269,7 @@
                                     {data: 'system_id', name: 'system_id'},
                                     {data: 'section_report', name: 'section_report'},
                                     {data: 'reporter', name: 'reporter'},
+                                    {data: 'girande', name: 'girande'},
                                     {data: 'shift', name: 'shift'},
                                     {data: 'user_id', name: 'user_id'},
                                     {data: 'date', name: 'date'},
@@ -298,6 +310,7 @@
                                     $("#editRegister").val(data.data.user_id);
                                     $("#editShift").val(data.data.shift);
                                     $("#editDelivery").val(data.data.delivery);
+                                    $("#editGirande").val(data.data.girande);
                                 })
                             });
 
@@ -330,6 +343,7 @@
                                     'reporter':$("#reporter").val(),
                                     'problem':$("#problem").val(),
                                     'delivery':$("#delivery").val(),
+                                    'girande':$("#girande").val(),
                                     "_token": "{{ csrf_token() }}",
                                 })
                                     .then(function (response) {

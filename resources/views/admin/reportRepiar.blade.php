@@ -76,7 +76,13 @@
                             </div>
                             <div class="form-row">
                                 <div class="col form-group  ">
-                                    <label for="editDelivery">    فرد تحویل گیرنده  </label><input class="form-control" value="{{$info['delivery']}}">
+                                    <label for="editDelivery">    فرد تحویل دهنده  </label><input class="form-control" value="{{$info['delivery']}}">
+                                </div> <!-- form-group end.// -->
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col form-group  ">
+                                    <label for="girande">    فرد تحویل گیرنده  </label><input class="form-control" value="{{$info['girande']}}">
                                 </div> <!-- form-group end.// -->
                             </div>
 

@@ -8,7 +8,7 @@ class Repair extends Model
 {
     protected $fillable = [
         'shift', 'system_id', 'section_report','reporter','problem',
-        'delivery','solution','user_id','created_at'
+        'delivery','solution','user_id','girande','created_at'
     ];
     public function users()
     {
